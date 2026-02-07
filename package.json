@@ -1,12 +1,13 @@
 {
-  "name": "FindMySpot",
+  "name": "findmyspot",
   "version": "1.0.0",
   "description": "",
-  "private":true,
-  "scripts": {
-
-  },
+  "private": true,
+  "scripts": {},
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
 }
