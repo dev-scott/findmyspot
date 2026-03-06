@@ -7,11 +7,14 @@
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
+  moduleFormat = "esm"
 }
 
 datasource db {
   provider = "postgresql"
 }
+
+
 
 model User {
   uid          String        @id
