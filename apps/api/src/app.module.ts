@@ -5,11 +5,21 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo'
 import { ConfigModule } from '@nestjs/config'
-import { UserModule } from './user/user.module'
+import { PrismaModule } from './common/prisma/prisma.module'
+import { UsersModule } from './models/users/users.module'
+import { JwtModule } from '@nestjs/jwt'
+
+const MAX_PAGE = 24 * 60 * 60
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       // isGlobal: true,
+    }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: MAX_PAGE },
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -19,8 +29,14 @@ import { UserModule } from './user/user.module'
       buildSchemaOptions: {
         numberScalarMode: 'integer',
       },
+      playground: {
+        settings: {
+          'request.credentials': 'include',
+        },
+      },
     }),
-    UserModule,
+    PrismaModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
