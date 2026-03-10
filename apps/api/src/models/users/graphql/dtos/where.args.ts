@@ -1,4 +1,4 @@
-import { Field, InputType, PartialType } from '@nestjs/graphql'
+import { InputType, PartialType } from '@nestjs/graphql'
 import { Prisma } from 'generated/prisma/client'
 import {
   DateTimeFilter,
@@ -14,7 +14,7 @@ export class UserWhereUniqueInput {
 @InputType()
 export class UserWhereInputStrict implements RestrictProperties<
   UserWhereInputStrict,
-  Omit<Prisma.UserWhereInput, 'Credentials' | 'AuthProvider' | 'Admin'>
+  Omit<Prisma.UserWhereInput, 'Credentials' | 'AuthProvider' | 'Admin' | "image">
 > {
   uid: StringFilter
   createdAt: DateTimeFilter
@@ -32,7 +32,7 @@ export class UserWhereInputStrict implements RestrictProperties<
 }
 
 @InputType()
-export class UserWhereInput extends PartialType(UserWhereInputStrict) {}
+export class UserWhereInput extends PartialType(UserWhereInputStrict) { }
 
 @InputType()
 export class UserListRelationFilter {

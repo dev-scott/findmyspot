@@ -23,7 +23,7 @@ import { UserEntity } from './entity/user.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { GetUserType } from 'src/common/types'
 import { checkRowLevelPermission } from 'src/common/auth/util'
-import { contains } from 'class-validator'
+// import { contains } from 'class-validator'
 
 @ApiTags('users')
 @Controller('users')

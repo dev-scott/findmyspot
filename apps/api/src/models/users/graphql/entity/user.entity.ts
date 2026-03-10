@@ -5,8 +5,11 @@ import { RestrictProperties } from 'src/common/dtos/common.input'
 @ObjectType()
 export class User implements RestrictProperties<User, UserType> {
   @Field({ nullable: true })
+  image: string
+  @Field({ nullable: true })
   name: string
   uid: string
+
   createdAt: Date
   updatedAt: Date
   // Todo Add below to make optional fields optional.
