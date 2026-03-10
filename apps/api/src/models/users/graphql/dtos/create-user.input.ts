@@ -1,4 +1,4 @@
-import { Field, InputType, PickType, registerEnumType } from '@nestjs/graphql'
+import { Field, InputType, ObjectType, PickType, registerEnumType } from '@nestjs/graphql'
 import { User } from '../entity/user.entity'
 import { AuthProviderType } from 'generated/prisma/enums'
 
@@ -34,7 +34,7 @@ export class LoginInput extends PickType(
 
 ) { }
 
-@InputType()
+@ObjectType()
 export class LoginOutput {
   token: string
 }
