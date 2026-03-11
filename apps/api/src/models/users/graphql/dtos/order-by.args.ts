@@ -10,6 +10,9 @@ export class UserOrderByWithRelationInputStrict implements RestrictProperties<
     'Credentials' | 'AuthProvider' | 'Admin' | 'image'
   >
 > {
+  Manager: Prisma.ManagerOrderByWithRelationInput
+  Valet: Prisma.ValetOrderByWithRelationInput
+  Customer: Prisma.CustomerOrderByWithRelationInput
   @Field(() => Prisma.SortOrder)
   uid: Prisma.SortOrder
   @Field(() => Prisma.SortOrder)
@@ -28,7 +31,7 @@ export class UserOrderByWithRelationInputStrict implements RestrictProperties<
 @InputType()
 export class UserOrderByWithRelationInput extends PartialType(
   UserOrderByWithRelationInputStrict,
-) {}
+) { }
 
 @InputType()
 export class UserOrderByRelationAggregateInput {

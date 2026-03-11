@@ -22,7 +22,7 @@
 
     "entity:gql": "npx nestjs-prisma-codegen --graphql",
     "entity:rest": "npx nestjs-prisma-codegen --rest",
-    "entity:complete": "npx nestjs-prisma-codegen --complete"
+    "entity:complete": "pnpm dlx nestjs-prisma-codegen --complete"
   },
   "dependencies": {
     "@apollo/server": "^4.10.2",
