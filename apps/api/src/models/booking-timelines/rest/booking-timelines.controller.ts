@@ -12,23 +12,23 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
 } from '@nestjs/swagger'
-import { BookingTimelineEntity } from './entity/bookingTimeline.entity'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { GetUserType } from 'src/common/types'
 import { checkRowLevelPermission } from 'src/common/auth/util'
+import { BookingTimelineEntity } from './entity/booking-timeline.entity'
 
 
 @ApiTags('booking-timelines')
 @Controller('booking-timelines')
 export class BookingTimelinesController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: BookingTimelineEntity })
   @Post()
   create(@Body() createBookingTimelineDto: CreateBookingTimeline, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, createBookingTimelineDto.uid)
+    checkRowLevelPermission(user, createBookingTimelineDto.managerId)
     return this.prisma.bookingTimeline.create({ data: createBookingTimelineDto })
   }
 
@@ -58,7 +58,7 @@ export class BookingTimelinesController {
     @GetUser() user: GetUserType,
   ) {
     const bookingTimeline = await this.prisma.bookingTimeline.findUnique({ where: { id } })
-    checkRowLevelPermission(user, bookingTimeline.uid)
+    checkRowLevelPermission(user, bookingTimeline!!.managerId!!)
     return this.prisma.bookingTimeline.update({
       where: { id },
       data: updateBookingTimelineDto,
@@ -70,7 +70,7 @@ export class BookingTimelinesController {
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
     const bookingTimeline = await this.prisma.bookingTimeline.findUnique({ where: { id } })
-    checkRowLevelPermission(user, bookingTimeline.uid)
+    checkRowLevelPermission(user, bookingTimeline!!.managerId!!)
     return this.prisma.bookingTimeline.delete({ where: { id } })
   }
 }

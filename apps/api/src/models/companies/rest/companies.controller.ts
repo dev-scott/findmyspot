@@ -21,14 +21,14 @@ import { checkRowLevelPermission } from 'src/common/auth/util'
 @ApiTags('companies')
 @Controller('companies')
 export class CompaniesController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: CompanyEntity })
   @Post()
   create(@Body() createCompanyDto: CreateCompany, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, createCompanyDto.uid)
+    // checkRowLevelPermission(user, createCompanyDto.uid)
     return this.prisma.company.create({ data: createCompanyDto })
   }
 
@@ -57,8 +57,8 @@ export class CompaniesController {
     @Body() updateCompanyDto: UpdateCompany,
     @GetUser() user: GetUserType,
   ) {
-    const company = await this.prisma.company.findUnique({ where: { id } })
-    checkRowLevelPermission(user, company.uid)
+    const company = await this.prisma.company.findUnique({ where: { id }, include: { Managers: true } })
+    checkRowLevelPermission(user, company?.Managers.map((man) => man.uid))
     return this.prisma.company.update({
       where: { id },
       data: updateCompanyDto,
@@ -69,8 +69,8 @@ export class CompaniesController {
   @AllowAuthenticated()
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const company = await this.prisma.company.findUnique({ where: { id } })
-    checkRowLevelPermission(user, company.uid)
+    const company = await this.prisma.company.findUnique({ where: { id }, include: { Managers: true } })
+    checkRowLevelPermission(user, company?.Managers.map((man) => man.uid))
     return this.prisma.company.delete({ where: { id } })
   }
 }

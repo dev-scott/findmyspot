@@ -1,8 +1,9 @@
 import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { Prisma } from 'generated/prisma/client'
 import { ValetAssignmentOrderByWithRelationInput } from './order-by.args'
 import { ValetAssignmentWhereInput, ValetAssignmentWhereUniqueInput } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
+import { DefaultArgs } from '@prisma/client/runtime/client'
 
 registerEnumType(Prisma.ValetAssignmentScalarFieldEnum, {
   name: 'ValetAssignmentScalarFieldEnum',
@@ -12,6 +13,7 @@ registerEnumType(Prisma.ValetAssignmentScalarFieldEnum, {
 class FindManyValetAssignmentArgsStrict
   implements RestrictProperties<FindManyValetAssignmentArgsStrict, Omit<Prisma.ValetAssignmentFindManyArgs, 'include' | 'select'>>
 {
+  omit: Prisma.ValetAssignmentOmit<DefaultArgs> | null
   where: ValetAssignmentWhereInput
   orderBy: ValetAssignmentOrderByWithRelationInput[]
   cursor: ValetAssignmentWhereUniqueInput

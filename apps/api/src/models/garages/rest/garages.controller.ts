@@ -21,14 +21,21 @@ import { checkRowLevelPermission } from 'src/common/auth/util'
 @ApiTags('garages')
 @Controller('garages')
 export class GaragesController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: GarageEntity })
   @Post()
-  create(@Body() createGarageDto: CreateGarage, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, createGarageDto.uid)
+  async create(@Body() createGarageDto: CreateGarage, @GetUser() user: GetUserType) {
+    const company = await this.prisma.company.findUnique({
+      where: { id: createGarageDto.companyId },
+      include: { Managers: true },
+    })
+    checkRowLevelPermission(
+      user,
+      company?.Managers.map((manager) => manager.uid),
+    )
     return this.prisma.garage.create({ data: createGarageDto })
   }
 
@@ -57,8 +64,14 @@ export class GaragesController {
     @Body() updateGarageDto: UpdateGarage,
     @GetUser() user: GetUserType,
   ) {
-    const garage = await this.prisma.garage.findUnique({ where: { id } })
-    checkRowLevelPermission(user, garage.uid)
+    const garage = await this.prisma.garage.findUnique({
+      where: { id },
+      include: { Company: { include: { Managers: true } } },
+    })
+    checkRowLevelPermission(
+      user,
+      garage?.Company.Managers.map((manager) => manager.uid),
+    )
     return this.prisma.garage.update({
       where: { id },
       data: updateGarageDto,
@@ -69,8 +82,14 @@ export class GaragesController {
   @AllowAuthenticated()
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const garage = await this.prisma.garage.findUnique({ where: { id } })
-    checkRowLevelPermission(user, garage.uid)
+    const garage = await this.prisma.garage.findUnique({
+      where: { id },
+      include: { Company: { include: { Managers: true } } },
+    })
+    checkRowLevelPermission(
+      user,
+      garage?.Company.Managers.map((manager) => manager.uid),
+    )
     return this.prisma.garage.delete({ where: { id } })
   }
 }

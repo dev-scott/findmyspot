@@ -6,7 +6,7 @@ import { UpdateManagerInput } from './dtos/update-manager.input'
 
 @Injectable()
 export class ManagersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
   create(createManagerInput: CreateManagerInput) {
     return this.prisma.manager.create({
       data: createManagerInput,
@@ -22,9 +22,9 @@ export class ManagersService {
   }
 
   update(updateManagerInput: UpdateManagerInput) {
-    const { id, ...data } = updateManagerInput
+    const { uid, ...data } = updateManagerInput
     return this.prisma.manager.update({
-      where: { id },
+      where: { uid },
       data: data,
     })
   }

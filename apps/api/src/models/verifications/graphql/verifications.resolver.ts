@@ -12,13 +12,13 @@ import { PrismaService } from 'src/common/prisma/prisma.service'
 @Resolver(() => Verification)
 export class VerificationsResolver {
   constructor(private readonly verificationsService: VerificationsService,
-    private readonly prisma: PrismaService) {}
+    private readonly prisma: PrismaService) { }
 
-  @AllowAuthenticated()
+  @AllowAuthenticated("admin")
   @Mutation(() => Verification)
   createVerification(@Args('createVerificationInput') args: CreateVerificationInput, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, args.uid)
-    return this.verificationsService.create(args)
+    // checkRowLevelPermission(user, args.uid)
+    return this.verificationsService.create(args, user.uid)
   }
 
   @Query(() => [Verification], { name: 'verifications' })
@@ -34,8 +34,8 @@ export class VerificationsResolver {
   @AllowAuthenticated()
   @Mutation(() => Verification)
   async updateVerification(@Args('updateVerificationInput') args: UpdateVerificationInput, @GetUser() user: GetUserType) {
-    const verification = await this.prisma.verification.findUnique({ where: { id: args.id } })
-    checkRowLevelPermission(user, verification.uid)
+    // const verification = await this.prisma.verification.findUnique({ where: { id: args.id } })
+    // checkRowLevelPermission(user, verification.uid)
     return this.verificationsService.update(args)
   }
 
@@ -43,7 +43,7 @@ export class VerificationsResolver {
   @Mutation(() => Verification)
   async removeVerification(@Args() args: FindUniqueVerificationArgs, @GetUser() user: GetUserType) {
     const verification = await this.prisma.verification.findUnique(args)
-    checkRowLevelPermission(user, verification.uid)
+    // checkRowLevelPermission(user, verification.uid)
     return this.verificationsService.remove(args)
   }
 }

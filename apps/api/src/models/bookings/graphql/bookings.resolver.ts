@@ -12,12 +12,12 @@ import { PrismaService } from 'src/common/prisma/prisma.service'
 @Resolver(() => Booking)
 export class BookingsResolver {
   constructor(private readonly bookingsService: BookingsService,
-    private readonly prisma: PrismaService) {}
+    private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @Mutation(() => Booking)
   createBooking(@Args('createBookingInput') args: CreateBookingInput, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, args.uid)
+    checkRowLevelPermission(user, args.customerId)
     return this.bookingsService.create(args)
   }
 
@@ -35,7 +35,7 @@ export class BookingsResolver {
   @Mutation(() => Booking)
   async updateBooking(@Args('updateBookingInput') args: UpdateBookingInput, @GetUser() user: GetUserType) {
     const booking = await this.prisma.booking.findUnique({ where: { id: args.id } })
-    checkRowLevelPermission(user, booking.uid)
+    checkRowLevelPermission(user, booking?.customerId)
     return this.bookingsService.update(args)
   }
 
@@ -43,7 +43,7 @@ export class BookingsResolver {
   @Mutation(() => Booking)
   async removeBooking(@Args() args: FindUniqueBookingArgs, @GetUser() user: GetUserType) {
     const booking = await this.prisma.booking.findUnique(args)
-    checkRowLevelPermission(user, booking.uid)
+    checkRowLevelPermission(user, booking?.customerId)
     return this.bookingsService.remove(args)
   }
 }

@@ -21,14 +21,21 @@ import { checkRowLevelPermission } from 'src/common/auth/util'
 @ApiTags('slots')
 @Controller('slots')
 export class SlotsController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: SlotEntity })
   @Post()
-  create(@Body() createSlotDto: CreateSlot, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, createSlotDto.uid)
+  async create(@Body() createSlotDto: CreateSlot, @GetUser() user: GetUserType) {
+    const garage = await this.prisma.garage.findUnique({
+      where: { id: createSlotDto.garageId },
+      include: { Company: { include: { Managers: true } } },
+    })
+    checkRowLevelPermission(
+      user,
+      garage?.Company.Managers.map((manager) => manager.uid),
+    )
     return this.prisma.slot.create({ data: createSlotDto })
   }
 
@@ -57,8 +64,22 @@ export class SlotsController {
     @Body() updateSlotDto: UpdateSlot,
     @GetUser() user: GetUserType,
   ) {
-    const slot = await this.prisma.slot.findUnique({ where: { id } })
-    checkRowLevelPermission(user, slot.uid)
+    const slot = await this.prisma.slot.findUnique({
+      where: { id },
+      include: {
+        Garage: {
+          include: {
+            Company: {
+              include: { Managers: true },
+            },
+          },
+        },
+      },
+    })
+    checkRowLevelPermission(
+      user,
+      slot?.Garage.Company.Managers.map((man) => man.uid),
+    )
     return this.prisma.slot.update({
       where: { id },
       data: updateSlotDto,
@@ -69,8 +90,22 @@ export class SlotsController {
   @AllowAuthenticated()
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const slot = await this.prisma.slot.findUnique({ where: { id } })
-    checkRowLevelPermission(user, slot.uid)
+    const slot = await this.prisma.slot.findUnique({
+      where: { id },
+      include: {
+        Garage: {
+          include: {
+            Company: {
+              include: { Managers: true },
+            },
+          },
+        },
+      },
+    })
+    checkRowLevelPermission(
+      user,
+      slot?.Garage.Company.Managers.map((man) => man.uid),
+    )
     return this.prisma.slot.delete({ where: { id } })
   }
 }

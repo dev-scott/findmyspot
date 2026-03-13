@@ -1,8 +1,8 @@
 import { CreateManagerInput } from './create-manager.input'
 import { InputType, PartialType } from '@nestjs/graphql'
-import { Manager } from '@prisma/client'
+import { Manager } from 'generated/prisma/client'
 
 @InputType()
 export class UpdateManagerInput extends PartialType(CreateManagerInput) {
-  id: Manager['id']
+  uid: Manager['uid']
 }

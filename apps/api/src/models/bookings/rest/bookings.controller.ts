@@ -21,14 +21,14 @@ import { checkRowLevelPermission } from 'src/common/auth/util'
 @ApiTags('bookings')
 @Controller('bookings')
 export class BookingsController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: BookingEntity })
   @Post()
   create(@Body() createBookingDto: CreateBooking, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, createBookingDto.uid)
+    checkRowLevelPermission(user, createBookingDto.customerId)
     return this.prisma.booking.create({ data: createBookingDto })
   }
 
@@ -58,7 +58,7 @@ export class BookingsController {
     @GetUser() user: GetUserType,
   ) {
     const booking = await this.prisma.booking.findUnique({ where: { id } })
-    checkRowLevelPermission(user, booking.uid)
+    checkRowLevelPermission(user, booking?.customerId)
     return this.prisma.booking.update({
       where: { id },
       data: updateBookingDto,
@@ -70,7 +70,7 @@ export class BookingsController {
   @Delete(':id')
   async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
     const booking = await this.prisma.booking.findUnique({ where: { id } })
-    checkRowLevelPermission(user, booking.uid)
+    checkRowLevelPermission(user, booking?.customerId)
     return this.prisma.booking.delete({ where: { id } })
   }
 }

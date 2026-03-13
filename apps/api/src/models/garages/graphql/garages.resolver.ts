@@ -8,17 +8,26 @@ import { checkRowLevelPermission } from 'src/common/auth/util'
 import { GetUserType } from 'src/common/types'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { PrismaService } from 'src/common/prisma/prisma.service'
+import { BadRequestException } from '@nestjs/common'
 
 @Resolver(() => Garage)
 export class GaragesResolver {
   constructor(private readonly garagesService: GaragesService,
-    private readonly prisma: PrismaService) {}
+    private readonly prisma: PrismaService) { }
 
-  @AllowAuthenticated()
+  @AllowAuthenticated("manager")
   @Mutation(() => Garage)
-  createGarage(@Args('createGarageInput') args: CreateGarageInput, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, args.uid)
-    return this.garagesService.create(args)
+  async createGarage(@Args('createGarageInput') args: CreateGarageInput, @GetUser() user: GetUserType) {
+    const company = await this.prisma.company.findFirst({
+      where: { Managers: { some: { uid: user.uid } } },
+    })
+    if (!company?.id) {
+      throw new BadRequestException(
+        'No company associated with the manager id.',
+      )
+    }
+
+    return this.garagesService.create({ ...args, companyId: company.id })
   }
 
   @Query(() => [Garage], { name: 'garages' })
@@ -34,16 +43,28 @@ export class GaragesResolver {
   @AllowAuthenticated()
   @Mutation(() => Garage)
   async updateGarage(@Args('updateGarageInput') args: UpdateGarageInput, @GetUser() user: GetUserType) {
-    const garage = await this.prisma.garage.findUnique({ where: { id: args.id } })
-    checkRowLevelPermission(user, garage.uid)
+    const garage = await this.prisma.garage.findUnique({
+      where: { id: args.id },
+      include: { Company: { include: { Managers: true } } },
+    })
+    checkRowLevelPermission(
+      user,
+      garage?.Company.Managers.map((man) => man.uid),
+    )
     return this.garagesService.update(args)
   }
 
   @AllowAuthenticated()
   @Mutation(() => Garage)
   async removeGarage(@Args() args: FindUniqueGarageArgs, @GetUser() user: GetUserType) {
-    const garage = await this.prisma.garage.findUnique(args)
-    checkRowLevelPermission(user, garage.uid)
+    const garage = await this.prisma.garage.findUnique({
+      where: { id: args.where.id },
+      include: { Company: { include: { Managers: true } } },
+    })
+    checkRowLevelPermission(
+      user,
+      garage?.Company.Managers.map((man) => man.uid),
+    )
     return this.garagesService.remove(args)
   }
 }

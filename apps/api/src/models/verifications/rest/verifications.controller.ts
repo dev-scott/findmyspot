@@ -21,14 +21,14 @@ import { checkRowLevelPermission } from 'src/common/auth/util'
 @ApiTags('verifications')
 @Controller('verifications')
 export class VerificationsController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
-  @AllowAuthenticated()
+  @AllowAuthenticated("admin")
   @ApiBearerAuth()
   @ApiCreatedResponse({ type: VerificationEntity })
   @Post()
   create(@Body() createVerificationDto: CreateVerification, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, createVerificationDto.uid)
+    // checkRowLevelPermission(user, createVerificationDto.uid)
     return this.prisma.verification.create({ data: createVerificationDto })
   }
 
@@ -43,34 +43,34 @@ export class VerificationsController {
   }
 
   @ApiOkResponse({ type: VerificationEntity })
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.prisma.verification.findUnique({ where: { id } })
+  @Get(':garageId')
+  findOne(@Param('garageId') garageId: number) {
+    return this.prisma.verification.findUnique({ where: { garageId } })
   }
 
   @ApiOkResponse({ type: VerificationEntity })
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Patch(':id')
+  @Patch(':garageId')
   async update(
-    @Param('id') id: number,
+    @Param('garageId') garageId: number,
     @Body() updateVerificationDto: UpdateVerification,
     @GetUser() user: GetUserType,
   ) {
-    const verification = await this.prisma.verification.findUnique({ where: { id } })
-    checkRowLevelPermission(user, verification.uid)
+    // const verification = await this.prisma.verification.findUnique({ where: { id } })
+    // checkRowLevelPermission(user, verification.uid)
     return this.prisma.verification.update({
-      where: { id },
+      where: { garageId },
       data: updateVerificationDto,
     })
   }
 
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Delete(':id')
-  async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const verification = await this.prisma.verification.findUnique({ where: { id } })
-    checkRowLevelPermission(user, verification.uid)
-    return this.prisma.verification.delete({ where: { id } })
+  @Delete(':garageId')
+  async remove(@Param('garageId') garageId: number, @GetUser() user: GetUserType) {
+    // const verification = await this.prisma.verification.findUnique({ where: { garageId } })
+    // checkRowLevelPermission(user, verification.uid)
+    return this.prisma.verification.delete({ where: { garageId } })
   }
 }

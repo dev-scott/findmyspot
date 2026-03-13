@@ -12,7 +12,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service'
 @Resolver(() => Manager)
 export class ManagersResolver {
   constructor(private readonly managersService: ManagersService,
-    private readonly prisma: PrismaService) {}
+    private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @Mutation(() => Manager)
@@ -34,8 +34,8 @@ export class ManagersResolver {
   @AllowAuthenticated()
   @Mutation(() => Manager)
   async updateManager(@Args('updateManagerInput') args: UpdateManagerInput, @GetUser() user: GetUserType) {
-    const manager = await this.prisma.manager.findUnique({ where: { id: args.id } })
-    checkRowLevelPermission(user, manager.uid)
+    const manager = await this.prisma.manager.findUnique({ where: { uid: args.uid } })
+    checkRowLevelPermission(user, manager?.uid)
     return this.managersService.update(args)
   }
 
@@ -43,7 +43,7 @@ export class ManagersResolver {
   @Mutation(() => Manager)
   async removeManager(@Args() args: FindUniqueManagerArgs, @GetUser() user: GetUserType) {
     const manager = await this.prisma.manager.findUnique(args)
-    checkRowLevelPermission(user, manager.uid)
+    checkRowLevelPermission(user, manager?.uid)
     return this.managersService.remove(args)
   }
 }

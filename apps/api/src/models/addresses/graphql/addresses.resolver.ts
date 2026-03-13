@@ -12,12 +12,19 @@ import { PrismaService } from 'src/common/prisma/prisma.service'
 @Resolver(() => Address)
 export class AddressesResolver {
   constructor(private readonly addressesService: AddressesService,
-    private readonly prisma: PrismaService) {}
+    private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @Mutation(() => Address)
-  createAddress(@Args('createAddressInput') args: CreateAddressInput, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, args.uid)
+  async createAddress(@Args('createAddressInput') args: CreateAddressInput, @GetUser() user: GetUserType) {
+    const garage = await this.prisma.garage.findUnique({
+      where: { id: args.garageId },
+      include: { Company: { include: { Managers: true } } },
+    })
+    checkRowLevelPermission(
+      user,
+      garage?.Company.Managers.map((man) => man.uid),
+    )
     return this.addressesService.create(args)
   }
 
@@ -34,16 +41,36 @@ export class AddressesResolver {
   @AllowAuthenticated()
   @Mutation(() => Address)
   async updateAddress(@Args('updateAddressInput') args: UpdateAddressInput, @GetUser() user: GetUserType) {
-    const address = await this.prisma.address.findUnique({ where: { id: args.id } })
-    checkRowLevelPermission(user, address.uid)
+    const address = await this.prisma.address.findUnique({
+      where: { id: args.id },
+      include: {
+        Garage: {
+          include: { Company: { include: { Managers: true } } },
+        },
+      },
+    })
+    checkRowLevelPermission(
+      user,
+      address?.Garage.Company.Managers.map((man) => man.uid),
+    )
     return this.addressesService.update(args)
   }
 
   @AllowAuthenticated()
   @Mutation(() => Address)
   async removeAddress(@Args() args: FindUniqueAddressArgs, @GetUser() user: GetUserType) {
-    const address = await this.prisma.address.findUnique(args)
-    checkRowLevelPermission(user, address.uid)
+    const address = await this.prisma.address.findUnique({
+      where: { id: args.where.id },
+      include: {
+        Garage: {
+          include: { Company: { include: { Managers: true } } },
+        },
+      },
+    })
+    checkRowLevelPermission(
+      user,
+      address?.Garage.Company.Managers.map((man) => man.uid),
+    )
     return this.addressesService.remove(args)
   }
 }

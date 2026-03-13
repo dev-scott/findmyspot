@@ -1,8 +1,9 @@
 import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { Prisma } from 'generated/prisma/client'
 import { ManagerOrderByWithRelationInput } from './order-by.args'
 import { ManagerWhereInput, ManagerWhereUniqueInput } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
+import { DefaultArgs } from '@prisma/client/runtime/client'
 
 registerEnumType(Prisma.ManagerScalarFieldEnum, {
   name: 'ManagerScalarFieldEnum',
@@ -12,6 +13,7 @@ registerEnumType(Prisma.ManagerScalarFieldEnum, {
 class FindManyManagerArgsStrict
   implements RestrictProperties<FindManyManagerArgsStrict, Omit<Prisma.ManagerFindManyArgs, 'include' | 'select'>>
 {
+  omit: Prisma.ManagerOmit<DefaultArgs> | null
   where: ManagerWhereInput
   orderBy: ManagerOrderByWithRelationInput[]
   cursor: ManagerWhereUniqueInput

@@ -6,10 +6,10 @@ import { UpdateVerificationInput } from './dtos/update-verification.input'
 
 @Injectable()
 export class VerificationsService {
-  constructor(private readonly prisma: PrismaService) {}
-  create(createVerificationInput: CreateVerificationInput) {
+  constructor(private readonly prisma: PrismaService) { }
+  create(createVerificationInput: CreateVerificationInput, adminId: string) {
     return this.prisma.verification.create({
-      data: createVerificationInput,
+      data: { ...createVerificationInput, adminId },
     })
   }
 
@@ -22,9 +22,9 @@ export class VerificationsService {
   }
 
   update(updateVerificationInput: UpdateVerificationInput) {
-    const { id, ...data } = updateVerificationInput
+    const { garageId, ...data } = updateVerificationInput
     return this.prisma.verification.update({
-      where: { id },
+      where: { garageId },
       data: data,
     })
   }

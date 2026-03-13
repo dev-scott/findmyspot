@@ -16,8 +16,15 @@ export class SlotsResolver {
 
   @AllowAuthenticated()
   @Mutation(() => Slot)
-  createSlot(@Args('createSlotInput') args: CreateSlotInput, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, args.uid)
+  async createSlot(@Args('createSlotInput') args: CreateSlotInput, @GetUser() user: GetUserType) {
+    const garage = await this.prisma.garage.findUnique({
+      where: { id: args.garageId },
+      include: { Company: { include: { Managers: true } } },
+    })
+    checkRowLevelPermission(
+      user,
+      garage?.Company.Managers.map((manager) => manager.uid),
+    )
     return this.slotsService.create(args)
   }
 
@@ -34,16 +41,44 @@ export class SlotsResolver {
   @AllowAuthenticated()
   @Mutation(() => Slot)
   async updateSlot(@Args('updateSlotInput') args: UpdateSlotInput, @GetUser() user: GetUserType) {
-    const slot = await this.prisma.slot.findUnique({ where: { id: args.id } })
-    checkRowLevelPermission(user, slot.uid)
+      const slot = await this.prisma.slot.findUnique({
+      where: { id: args.id },
+      include: {
+        Garage: {
+          include: {
+            Company: {
+              include: { Managers: true },
+            },
+          },
+        },
+      },
+    })
+    checkRowLevelPermission(
+      user,
+      slot?.Garage.Company.Managers.map((man) => man.uid),
+    )
     return this.slotsService.update(args)
   }
 
   @AllowAuthenticated()
   @Mutation(() => Slot)
   async removeSlot(@Args() args: FindUniqueSlotArgs, @GetUser() user: GetUserType) {
-    const slot = await this.prisma.slot.findUnique(args)
-    checkRowLevelPermission(user, slot.uid)
+     const slot = await this.prisma.slot.findUnique({
+      where: { id: args.where.id },
+      include: {
+        Garage: {
+          include: {
+            Company: {
+              include: { Managers: true },
+            },
+          },
+        },
+      },
+    })
+    checkRowLevelPermission(
+      user,
+      slot?.Garage.Company.Managers.map((man) => man.uid),
+    )
     return this.slotsService.remove(args)
   }
 }

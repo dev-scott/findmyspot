@@ -1,8 +1,8 @@
 import { CreateValetInput } from './create-valet.input'
 import { InputType, PartialType } from '@nestjs/graphql'
-import { Valet } from '@prisma/client'
+import { Valet } from 'generated/prisma/client'
 
 @InputType()
 export class UpdateValetInput extends PartialType(CreateValetInput) {
-  id: Valet['id']
+  uid: Valet['uid']
 }

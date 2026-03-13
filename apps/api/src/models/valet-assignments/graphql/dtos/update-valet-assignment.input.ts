@@ -1,8 +1,8 @@
 import { CreateValetAssignmentInput } from './create-valet-assignment.input'
 import { InputType, PartialType } from '@nestjs/graphql'
-import { ValetAssignment } from '@prisma/client'
+import { ValetAssignment } from 'generated/prisma/client'
 
 @InputType()
 export class UpdateValetAssignmentInput extends PartialType(CreateValetAssignmentInput) {
-  id: ValetAssignment['id']
+  bookingId: ValetAssignment['bookingId']
 }

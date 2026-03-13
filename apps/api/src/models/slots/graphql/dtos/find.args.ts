@@ -1,8 +1,9 @@
 import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { Prisma } from 'generated/prisma/client'
 import { SlotOrderByWithRelationInput } from './order-by.args'
 import { SlotWhereInput, SlotWhereUniqueInput } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
+import { DefaultArgs } from '@prisma/client/runtime/client'
 
 registerEnumType(Prisma.SlotScalarFieldEnum, {
   name: 'SlotScalarFieldEnum',
@@ -12,6 +13,7 @@ registerEnumType(Prisma.SlotScalarFieldEnum, {
 class FindManySlotArgsStrict
   implements RestrictProperties<FindManySlotArgsStrict, Omit<Prisma.SlotFindManyArgs, 'include' | 'select'>>
 {
+  omit: Prisma.SlotOmit<DefaultArgs> | null
   where: SlotWhereInput
   orderBy: SlotOrderByWithRelationInput[]
   cursor: SlotWhereUniqueInput

@@ -6,7 +6,7 @@ import { UpdateCustomerInput } from './dtos/update-customer.input'
 
 @Injectable()
 export class CustomersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
   create(createCustomerInput: CreateCustomerInput) {
     return this.prisma.customer.create({
       data: createCustomerInput,
@@ -22,9 +22,9 @@ export class CustomersService {
   }
 
   update(updateCustomerInput: UpdateCustomerInput) {
-    const { id, ...data } = updateCustomerInput
+    const { uid, ...data } = updateCustomerInput
     return this.prisma.customer.update({
-      where: { id },
+      where: { uid },
       data: data,
     })
   }

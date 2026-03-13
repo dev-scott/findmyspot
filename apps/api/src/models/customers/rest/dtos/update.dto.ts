@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/swagger'
 import { CreateCustomer } from './create.dto'
-import { Customer } from '@prisma/client'
+import { Customer } from 'generated/prisma/client'
 
 export class UpdateCustomer extends PartialType(CreateCustomer) {
-  id: Customer['id']
+  uid: Customer['uid']
 }
 

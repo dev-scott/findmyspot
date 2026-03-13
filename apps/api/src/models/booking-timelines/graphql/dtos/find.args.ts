@@ -1,8 +1,9 @@
 import { ArgsType, Field, registerEnumType, PartialType } from '@nestjs/graphql'
-import { Prisma } from '@prisma/client'
+import { Prisma } from 'generated/prisma/client'
 import { BookingTimelineOrderByWithRelationInput } from './order-by.args'
 import { BookingTimelineWhereInput, BookingTimelineWhereUniqueInput } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
+import { DefaultArgs } from '@prisma/client/runtime/client'
 
 registerEnumType(Prisma.BookingTimelineScalarFieldEnum, {
   name: 'BookingTimelineScalarFieldEnum',
@@ -12,6 +13,7 @@ registerEnumType(Prisma.BookingTimelineScalarFieldEnum, {
 class FindManyBookingTimelineArgsStrict
   implements RestrictProperties<FindManyBookingTimelineArgsStrict, Omit<Prisma.BookingTimelineFindManyArgs, 'include' | 'select'>>
 {
+  omit: Prisma.BookingTimelineOmit<DefaultArgs> | null
   where: BookingTimelineWhereInput
   orderBy: BookingTimelineOrderByWithRelationInput[]
   cursor: BookingTimelineWhereUniqueInput

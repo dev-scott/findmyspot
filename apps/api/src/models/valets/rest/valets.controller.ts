@@ -21,7 +21,7 @@ import { checkRowLevelPermission } from 'src/common/auth/util'
 @ApiTags('valets')
 @Controller('valets')
 export class ValetsController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @ApiBearerAuth()
@@ -43,34 +43,34 @@ export class ValetsController {
   }
 
   @ApiOkResponse({ type: ValetEntity })
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.prisma.valet.findUnique({ where: { id } })
+  @Get(':uid')
+  findOne(@Param('uid') uid: string) {
+    return this.prisma.valet.findUnique({ where: { uid } })
   }
 
   @ApiOkResponse({ type: ValetEntity })
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Patch(':id')
+  @Patch(':uid')
   async update(
-    @Param('id') id: number,
+    @Param('uid') uid: string,
     @Body() updateValetDto: UpdateValet,
     @GetUser() user: GetUserType,
   ) {
-    const valet = await this.prisma.valet.findUnique({ where: { id } })
-    checkRowLevelPermission(user, valet.uid)
+    const valet = await this.prisma.valet.findUnique({ where: { uid } })
+    checkRowLevelPermission(user, valet?.uid)
     return this.prisma.valet.update({
-      where: { id },
+      where: { uid },
       data: updateValetDto,
     })
   }
 
   @ApiBearerAuth()
   @AllowAuthenticated()
-  @Delete(':id')
-  async remove(@Param('id') id: number, @GetUser() user: GetUserType) {
-    const valet = await this.prisma.valet.findUnique({ where: { id } })
-    checkRowLevelPermission(user, valet.uid)
-    return this.prisma.valet.delete({ where: { id } })
+  @Delete(':uid')
+  async remove(@Param('uid') uid: string, @GetUser() user: GetUserType) {
+    const valet = await this.prisma.valet.findUnique({ where: { uid } })
+    checkRowLevelPermission(user, valet?.uid)
+    return this.prisma.valet.delete({ where: { uid } })
   }
 }
