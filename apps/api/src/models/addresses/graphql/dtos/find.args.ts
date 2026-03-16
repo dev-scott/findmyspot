@@ -3,7 +3,6 @@ import { Prisma } from 'generated/prisma/client'
 import { AddressOrderByWithRelationInput } from './order-by.args'
 import { AddressWhereInput, AddressWhereUniqueInput } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
-import { DefaultArgs } from '@prisma/client/runtime/client'
 
 registerEnumType(Prisma.AddressScalarFieldEnum, {
   name: 'AddressScalarFieldEnum',
@@ -11,9 +10,8 @@ registerEnumType(Prisma.AddressScalarFieldEnum, {
 
 @ArgsType()
 class FindManyAddressArgsStrict
-  implements RestrictProperties<FindManyAddressArgsStrict, Omit<Prisma.AddressFindManyArgs, 'include' | 'select'>>
+  implements RestrictProperties<FindManyAddressArgsStrict, Omit<Prisma.AddressFindManyArgs, 'include' | 'select'|'omit'>>
 {
-  omit: Prisma.AddressOmit<DefaultArgs> | null
   where: AddressWhereInput
   orderBy: AddressOrderByWithRelationInput[]
   cursor: AddressWhereUniqueInput

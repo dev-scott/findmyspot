@@ -3,7 +3,6 @@ import { Prisma } from 'generated/prisma/client'
 import { ReviewOrderByWithRelationInput } from './order-by.args'
 import { ReviewWhereInput, ReviewWhereUniqueInput } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
-import { DefaultArgs } from '@prisma/client/runtime/client'
 
 registerEnumType(Prisma.ReviewScalarFieldEnum, {
   name: 'ReviewScalarFieldEnum',
@@ -11,9 +10,8 @@ registerEnumType(Prisma.ReviewScalarFieldEnum, {
 
 @ArgsType()
 class FindManyReviewArgsStrict
-  implements RestrictProperties<FindManyReviewArgsStrict, Omit<Prisma.ReviewFindManyArgs, 'include' | 'select'>>
+  implements RestrictProperties<FindManyReviewArgsStrict, Omit<Prisma.ReviewFindManyArgs, 'include' | 'select'|'omit'>>
 {
-  omit: Prisma.ReviewOmit<DefaultArgs> | null
   where: ReviewWhereInput
   orderBy: ReviewOrderByWithRelationInput[]
   cursor: ReviewWhereUniqueInput

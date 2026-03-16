@@ -3,7 +3,6 @@ import { Prisma } from 'generated/prisma/client'
 import { ValetOrderByWithRelationInput } from './order-by.args'
 import { ValetWhereInput, ValetWhereUniqueInput } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
-import { DefaultArgs } from '@prisma/client/runtime/client'
 
 registerEnumType(Prisma.ValetScalarFieldEnum, {
   name: 'ValetScalarFieldEnum',
@@ -11,9 +10,8 @@ registerEnumType(Prisma.ValetScalarFieldEnum, {
 
 @ArgsType()
 class FindManyValetArgsStrict
-  implements RestrictProperties<FindManyValetArgsStrict, Omit<Prisma.ValetFindManyArgs, 'include' | 'select'>>
+  implements RestrictProperties<FindManyValetArgsStrict, Omit<Prisma.ValetFindManyArgs, 'include' | 'select'|'omit'>>
 {
-  omit: Prisma.ValetOmit<DefaultArgs> | null
   where: ValetWhereInput
   orderBy: ValetOrderByWithRelationInput[]
   cursor: ValetWhereUniqueInput

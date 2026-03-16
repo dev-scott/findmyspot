@@ -3,7 +3,6 @@ import { Prisma } from 'generated/prisma/client'
 import { BookingOrderByWithRelationInput } from './order-by.args'
 import { BookingWhereInput, BookingWhereUniqueInput } from './where.args'
 import { RestrictProperties } from 'src/common/dtos/common.input'
-import { DefaultArgs } from '@prisma/client/runtime/client'
 
 registerEnumType(Prisma.BookingScalarFieldEnum, {
   name: 'BookingScalarFieldEnum',
@@ -11,9 +10,8 @@ registerEnumType(Prisma.BookingScalarFieldEnum, {
 
 @ArgsType()
 class FindManyBookingArgsStrict
-  implements RestrictProperties<FindManyBookingArgsStrict, Omit<Prisma.BookingFindManyArgs, 'include' | 'select'>>
+  implements RestrictProperties<FindManyBookingArgsStrict, Omit<Prisma.BookingFindManyArgs, 'include' | 'select'|'omit'>>
 {
-  omit: Prisma.BookingOmit<DefaultArgs> | null
   where: BookingWhereInput
   orderBy: BookingOrderByWithRelationInput[]
   cursor: BookingWhereUniqueInput

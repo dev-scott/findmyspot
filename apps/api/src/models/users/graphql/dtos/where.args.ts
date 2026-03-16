@@ -5,6 +5,9 @@ import {
   RestrictProperties,
   StringFilter,
 } from 'src/common/dtos/common.input'
+import { CustomerRelationFilter } from 'src/models/customers/graphql/dtos/where.args'
+import { ManagerRelationFilter } from 'src/models/managers/graphql/dtos/where.args'
+import { ValetRelationFilter } from 'src/models/valets/graphql/dtos/where.args'
 
 @InputType()
 export class UserWhereUniqueInput {
@@ -16,9 +19,9 @@ export class UserWhereInputStrict implements RestrictProperties<
   UserWhereInputStrict,
   Omit<Prisma.UserWhereInput, 'Credentials' | 'AuthProvider' | 'Admin' | "image">
 > {
-  Manager: ({ is?: undefined; isNot?: undefined } & Prisma.ManagerWhereInput) | ({ uid?: undefined; createdAt?: undefined; updatedAt?: undefined; User?: undefined; AND?: undefined; OR?: undefined; NOT?: undefined; displayName?: undefined; companyId?: undefined; Company?: undefined; BookingTimeline?: undefined } & Prisma.ManagerNullableScalarRelationFilter) | null
-  Valet: ({ is?: undefined; isNot?: undefined } & Prisma.ValetWhereInput) | ({ uid?: undefined; createdAt?: undefined; updatedAt?: undefined; image?: undefined; User?: undefined; AND?: undefined; OR?: undefined; NOT?: undefined; displayName?: undefined; companyId?: undefined; Company?: undefined; BookingTimeline?: undefined; licenceID?: undefined; PickupAssignments?: undefined; ReturnAssignments?: undefined } & Prisma.ValetNullableScalarRelationFilter) | null
-  Customer: ({ is?: undefined; isNot?: undefined } & Prisma.CustomerWhereInput) | ({ uid?: undefined; createdAt?: undefined; updatedAt?: undefined; User?: undefined; AND?: undefined; OR?: undefined; NOT?: undefined; displayName?: undefined; Bookings?: undefined; Reviews?: undefined } & Prisma.CustomerNullableScalarRelationFilter) | null
+  Manager:ManagerRelationFilter
+  Valet: ValetRelationFilter
+  Customer: CustomerRelationFilter
   uid: StringFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter

@@ -1,6 +1,10 @@
-import { Field, ObjectType } from '@nestjs/graphql'
-import { BookingStatus, Booking as BookingType } from 'generated/prisma/client'
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
+import { $Enums, BookingStatus, Booking as BookingType } from 'generated/prisma/client'
 import { RestrictProperties } from 'src/common/dtos/common.input'
+
+registerEnumType($Enums.BookingStatus, {
+  name: 'BookingStatus',
+})
 
 @ObjectType()
 export class Booking implements RestrictProperties<Booking,BookingType> {
@@ -18,6 +22,7 @@ export class Booking implements RestrictProperties<Booking,BookingType> {
     phoneNumber: string
     @Field({ nullable: true })
     passcode: string
+    @Field(()=>$Enums.BookingStatus)
     status: BookingStatus
     slotId: number
     customerId: string
