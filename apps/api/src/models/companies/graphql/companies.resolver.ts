@@ -48,3 +48,5 @@ export class CompaniesResolver {
     return this.companiesService.remove(args)
   }
 }
+
+
