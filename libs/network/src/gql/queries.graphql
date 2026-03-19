@@ -1,0 +1,7 @@
+mutation Mutation($createUserWithCredentialsInput: registerWithCredentialsInput!) {
+  registerWithCredentials(createUserWithCredentialsInput: $createUserWithCredentialsInput) {
+    uid
+    name
+    image
+  }
+}

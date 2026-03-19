@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import { Resolver, Query, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql'
 import { GaragesService } from './garages.service'
 import { Garage } from './entity/garage.entity'
 import { FindManyGarageArgs, FindUniqueGarageArgs } from './dtos/find.args'
@@ -9,6 +9,12 @@ import { GetUserType } from 'src/common/types'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { BadRequestException } from '@nestjs/common'
+import { Verification } from 'src/models/verifications/graphql/entity/verification.entity'
+import { Company } from 'src/models/companies/graphql/entity/company.entity'
+import { Address } from 'src/models/addresses/graphql/entity/address.entity'
+import { Slot } from 'src/models/slots/graphql/entity/slot.entity'
+import { AggregateCountOutput } from 'src/common/dtos/common.input'
+import { GarageWhereInput } from './dtos/where.args'
 
 @Resolver(() => Garage)
 export class GaragesResolver {
@@ -66,5 +72,42 @@ export class GaragesResolver {
       garage?.Company.Managers.map((man) => man.uid),
     )
     return this.garagesService.remove(args)
+  }
+
+
+   @ResolveField(() => Verification, { nullable: true })
+  async verification(@Parent() parent: Garage) {
+    return this.prisma.verification.findUnique({
+      where: { garageId: parent.id },
+    })
+  }
+
+  @ResolveField(() => Company)
+  company(@Parent() garage: Garage) {
+    return this.prisma.company.findFirst({ where: { id: garage.companyId } })
+  }
+
+  @ResolveField(() => Address, { nullable: true })
+  address(@Parent() garage: Garage) {
+    return this.prisma.address.findFirst({ where: { garageId: garage.id } })
+  }
+
+  @ResolveField(() => [Slot])
+  slots(@Parent() garage: Garage) {
+    return this.prisma.slot.findMany({ where: { garageId: garage.id } })
+  }
+
+  @Query(() => AggregateCountOutput, {
+    name: 'garagesCount',
+  })
+  async garagesCount(
+    @Args('where', { nullable: true })
+    where: GarageWhereInput,
+  ) {
+    const garages = await this.prisma.garage.aggregate({
+      _count: { _all: true },
+      where,
+    })
+    return { count: garages._count._all }
   }
 }

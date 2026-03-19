@@ -8,12 +8,30 @@ type User {
   uid: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  admin: Admin
+  manager: Manager
+  valet: Valet
+  customer: Customer
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type AuthProvider {
+  type: AuthProviderType!
+  uid: String!
+}
+
+enum AuthProviderType {
+  GOOGLE
+  CREDENTIALS
+}
+
+type AggregateCountOutput {
+  count: Int!
+}
 
 type LoginOutput {
   token: String!
@@ -23,13 +41,9 @@ type Admin {
   uid: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-}
-
-type Customer {
-  displayName: String
-  uid: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  user: User
+  verifications: [Verification!]!
+  verificationsCount: Int!
 }
 
 type Manager {
@@ -38,6 +52,7 @@ type Manager {
   uid: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+  company: Company
 }
 
 type Valet {
@@ -50,44 +65,21 @@ type Valet {
   licenceID: String!
 }
 
-type Garage {
+type Customer {
   displayName: String
-  description: String
-  id: Int!
+  uid: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  images: [String!]!
-  companyId: Int!
+  user: User
+  bookings: [Booking!]!
 }
 
-type Address {
-  address: String!
-  id: Int!
+type Verification {
   createdAt: DateTime!
-  updatedAt: DateTime!
-  lat: Int!
-  lng: Int!
   garageId: Int!
-}
-
-type Slot {
-  displayName: String
-  length: Int
-  width: Int
-  height: Int
-  type: SlotType!
-  id: Int!
-  createdAt: DateTime!
   updatedAt: DateTime!
-  pricePerHour: Int!
-  garageId: Int!
-}
-
-enum SlotType {
-  CAR
-  HEAVY
-  BIKE
-  BICYCLE
+  verified: Boolean!
+  adminId: String!
 }
 
 type Booking {
@@ -104,6 +96,10 @@ type Booking {
   vehicleNumber: String!
   slotId: Int!
   customerId: String!
+  slot: Slot!
+  customer: Customer!
+  bookingTimeline: [BookingTimeline!]!
+  valetAssignment: ValetAssignment
 }
 
 enum BookingStatus {
@@ -114,6 +110,63 @@ enum BookingStatus {
   VALET_ASSIGNED_FOR_CHECK_OUT
   CHECKED_OUT
   VALET_RETURNED
+}
+
+type Company {
+  displayName: String
+  description: String
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  garages: [Garage!]!
+  managers: [Manager!]!
+}
+
+type Garage {
+  displayName: String
+  description: String
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  images: [String!]!
+  companyId: Int!
+  verification: Verification
+  company: Company!
+  address: Address
+  slots: [Slot!]!
+}
+
+type Address {
+  address: String!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  lat: Int!
+  lng: Int!
+  garageId: Int!
+  garage: Garage
+}
+
+type Slot {
+  displayName: String
+  length: Int
+  width: Int
+  height: Int
+  type: SlotType!
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  pricePerHour: Int!
+  garageId: Int!
+  garage: Garage!
+  bookings: [Booking!]!
+}
+
+enum SlotType {
+  CAR
+  HEAVY
+  BIKE
+  BICYCLE
 }
 
 type ValetAssignment {
@@ -149,28 +202,14 @@ type Review {
   garageId: Int!
 }
 
-type Verification {
-  createdAt: DateTime!
-  garageId: Int!
-  updatedAt: DateTime!
-  verified: Boolean!
-  adminId: String!
-}
-
-type Company {
-  displayName: String
-  description: String
-  id: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
 type Query {
   whoami: User!
   users(distinct: [UserScalarFieldEnum!], where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int): [User!]!
   user(where: UserWhereUniqueInput!): User!
+  getAuthProvider(uid: String!): AuthProvider
   admins(distinct: [AdminScalarFieldEnum!], where: AdminWhereInput, orderBy: [AdminOrderByWithRelationInput!], cursor: AdminWhereUniqueInput, take: Int, skip: Int): [Admin!]!
   admin(where: AdminWhereUniqueInput!): Admin!
+  adminsCount(where: AdminWhereInput): Int!
   customers(distinct: [CustomerScalarFieldEnum!], where: CustomerWhereInput, orderBy: [CustomerOrderByWithRelationInput!], cursor: CustomerWhereUniqueInput, take: Int, skip: Int): [Customer!]!
   customer(where: CustomerWhereUniqueInput!): Customer!
   managers(distinct: [ManagerScalarFieldEnum!], where: ManagerWhereInput, orderBy: [ManagerOrderByWithRelationInput!], cursor: ManagerWhereUniqueInput, take: Int, skip: Int): [Manager!]!
@@ -181,6 +220,7 @@ type Query {
   company(where: CompanyWhereUniqueInput!): Company!
   garages(distinct: [GarageScalarFieldEnum!], where: GarageWhereInput, orderBy: [GarageOrderByWithRelationInput!], cursor: GarageWhereUniqueInput, take: Int, skip: Int): [Garage!]!
   garage(where: GarageWhereUniqueInput!): Garage!
+  garagesCount(where: GarageWhereInput): AggregateCountOutput!
   addresses(distinct: [AddressScalarFieldEnum!], where: AddressWhereInput, orderBy: [AddressOrderByWithRelationInput!], cursor: AddressWhereUniqueInput, take: Int, skip: Int): [Address!]!
   address(where: AddressWhereUniqueInput!): Address!
   slots(distinct: [SlotScalarFieldEnum!], where: SlotWhereInput, orderBy: [SlotOrderByWithRelationInput!], cursor: SlotWhereUniqueInput, take: Int, skip: Int): [Slot!]!
@@ -1068,11 +1108,6 @@ input RegisterWithProviderInput {
   name: String
   uid: String!
   type: AuthProviderType!
-}
-
-enum AuthProviderType {
-  GOOGLE
-  CREDENTIALS
 }
 
 input LoginInput {

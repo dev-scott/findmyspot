@@ -6,10 +6,32 @@ import { UpdateCompanyInput } from './dtos/update-company.input'
 
 @Injectable()
 export class CompaniesService {
-  constructor(private readonly prisma: PrismaService) {}
-  create(createCompanyInput: CreateCompanyInput) {
+  constructor(private readonly prisma: PrismaService) { }
+  async create({ managerId, managerName, ...data }: CreateCompanyInput) {
+
+
+    const manager = await this.prisma.manager.findUnique({
+      where: { uid: managerId },
+    })
+
+    if (manager) {
+      throw new Error('Manager already exists')
+    }
+
+
     return this.prisma.company.create({
-      data: createCompanyInput,
+      data: {
+        ...data,
+        Managers: {
+          connectOrCreate: {
+            where: { uid: managerId },
+            create: {
+              uid: managerId,
+              displayName: managerName,
+            },
+          },
+        },
+      },
     })
   }
 
@@ -21,11 +43,25 @@ export class CompaniesService {
     return this.prisma.company.findUnique(args)
   }
 
-  update(updateCompanyInput: UpdateCompanyInput) {
-    const { id, ...data } = updateCompanyInput
+  update({ id, managerId, managerName, ...data }: UpdateCompanyInput) {
     return this.prisma.company.update({
       where: { id },
-      data: data,
+      data: {
+        ...data,
+        ...(managerId
+          ? {
+            Managers: {
+              connectOrCreate: {
+                where: { uid: managerId },
+                create: {
+                  uid: managerId,
+                  displayName: managerName,
+                },
+              },
+            },
+          }
+          : {}),
+      },
     })
   }
 
