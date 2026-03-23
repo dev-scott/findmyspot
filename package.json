@@ -24,12 +24,15 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "prettier": "^2.3.2",
-    "typescript": "^5.4.3",
     "husky": "^8.0.0",
-    "nx": "22.5.4"
+    "nx": "22.5.4",
+    "prettier": "^2.3.2",
+    "typescript": "^5.4.3"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^7.8.2"
+  }
 }

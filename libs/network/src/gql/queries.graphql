@@ -5,3 +5,67 @@ mutation Mutation($createUserWithCredentialsInput: registerWithCredentialsInput!
     image
   }
 }
+
+
+query Companies($distinct: [CompanyScalarFieldEnum!], $where: CompanyWhereInput, $orderBy: [CompanyOrderByWithRelationInput!], $cursor: CompanyWhereUniqueInput, $take: Int, $skip: Int) {
+  companies(distinct: $distinct, where: $where, orderBy: $orderBy, cursor: $cursor, take: $take, skip: $skip) {
+    updatedAt
+    managers {
+      createdAt
+      displayName
+    }
+    id
+    displayName
+    description
+    createdAt
+    garages {
+      updatedAt
+      displayName
+      description
+    }
+  }
+}
+
+
+
+mutation Login($loginInput: LoginInput!) {
+  login(loginInput: $loginInput) {
+    token
+  }
+}
+
+mutation RegisterWithProvider($createUserWithProviderInput: RegisterWithProviderInput!) {
+  registerWithProvider(createUserWithProviderInput: $createUserWithProviderInput) {
+    updatedAt
+    uid
+    name
+    image
+    createdAt
+    admin {
+      uid
+      updatedAt
+    }
+    valet {
+      uid
+      licenceID
+      image
+      displayName
+      createdAt
+    }
+    manager {
+      displayName
+      uid
+    }
+    customer {
+      uid
+      displayName
+    }
+  }
+}
+
+query GetAuthProvider($uid: String!) {
+  getAuthProvider(uid: $uid) {
+    type
+    uid
+  }
+}

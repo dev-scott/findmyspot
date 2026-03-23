@@ -3,8 +3,8 @@ import {
   ApolloClient,
   HttpLink,
   InMemoryCache,
-  ApolloProvider as Provider,
 } from '@apollo/client'
+import { ApolloProvider as Provider } from '@apollo/client/react'
 import { ReactNode } from 'react'
 import { setContext } from '@apollo/client/link/context'
 
@@ -18,8 +18,15 @@ export const ApolloProvider = ({ children }: IApolloProviderProps) => {
   })
 
   const authLink = setContext(async (_, { headers }) => {
-    const token = await fetch('/api/auth/token').then((res) => res.json())
-
+    let token: string | null = null
+    try {
+      const res = await fetch('/api/auth/token')
+      if (res.ok) {
+        token = await res.json()
+      }
+    } catch (e) {
+      console.warn('Failed to fetch auth token', e)
+    }
     return {
       headers: {
         ...headers,
