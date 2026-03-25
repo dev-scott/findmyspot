@@ -27,14 +27,14 @@ export class UsersResolver {
 
   @Mutation(() => User)
   async registerWithCredentials(
-    @Args('createUserWithCredentialsInput') args: registerWithCredentialsInput,
+    @Args('registerWithCredentialsInput') args: registerWithCredentialsInput,
   ) {
     return this.usersService.registerWithCredentials(args)
   }
 
   @Mutation(() => User)
   async registerWithProvider(
-    @Args('createUserWithProviderInput') args: RegisterWithProviderInput,
+    @Args('registerWithProviderInput') args: RegisterWithProviderInput,
   ) {
     return this.usersService.registerWithProvider(args)
   }

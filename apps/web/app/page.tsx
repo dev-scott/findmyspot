@@ -10,7 +10,7 @@ export default function Home() {
   })
   console.log("companies data", data)
   return (
-    <main>
+    <main className="bg-primary">
 
       Hello
 

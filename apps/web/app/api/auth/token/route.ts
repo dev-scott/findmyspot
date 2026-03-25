@@ -1,17 +1,16 @@
-import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 
-export async function GET(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
-  if (!token) {
-    return NextResponse.json(null, { status: 401 })
-  }
-  // Return the raw JWT string so Apollo can use it as Bearer token
-  const rawToken = req.cookies.get(
-    process.env.NEXTAUTH_URL?.startsWith('https://')
-      ? '__Secure-next-auth.session-token'
-      : 'next-auth.session-token',
-  )?.value
+export async function GET(req: NextRequest, res: NextResponse) {
+  const getCookies = await cookies()
+  const isDevelopment = process.env.NODE_ENV === 'development'
 
-  return NextResponse.json(rawToken ?? null)
+  // Use the appropriate cookie name based on the environment
+  const cookieName = isDevelopment
+    ? 'next-auth.session-token'
+    : '__Secure-next-auth.session-token'
+
+  const nextAuthSession = getCookies.get(cookieName)?.value || ''
+
+  return NextResponse.json(nextAuthSession)
 }

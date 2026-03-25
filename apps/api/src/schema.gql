@@ -35,6 +35,7 @@ type AggregateCountOutput {
 
 type LoginOutput {
   token: String!
+  user: User!
 }
 
 type Admin {
@@ -1050,8 +1051,8 @@ input VerificationWhereUniqueInput {
 }
 
 type Mutation {
-  registerWithCredentials(createUserWithCredentialsInput: registerWithCredentialsInput!): User!
-  registerWithProvider(createUserWithProviderInput: RegisterWithProviderInput!): User!
+  registerWithCredentials(registerWithCredentialsInput: registerWithCredentialsInput!): User!
+  registerWithProvider(registerWithProviderInput: RegisterWithProviderInput!): User!
   login(loginInput: LoginInput!): LoginOutput!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(where: UserWhereUniqueInput!): User!

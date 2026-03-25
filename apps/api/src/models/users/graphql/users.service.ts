@@ -92,7 +92,7 @@ export class UsersService {
     const jwtToken = this.jwtService.sign({ uid: user.uid }, { algorithm: 'HS256' })
 
     return {
-      token: jwtToken
+      token: jwtToken, user
     }
 
   }

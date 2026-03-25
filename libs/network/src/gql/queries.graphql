@@ -1,5 +1,5 @@
-mutation Mutation($createUserWithCredentialsInput: registerWithCredentialsInput!) {
-  registerWithCredentials(createUserWithCredentialsInput: $createUserWithCredentialsInput) {
+mutation RegisterWithCredentials($registerWithCredentialsInput: registerWithCredentialsInput!) {
+  registerWithCredentials(registerWithCredentialsInput: $registerWithCredentialsInput) {
     uid
     name
     image
@@ -31,11 +31,16 @@ query Companies($distinct: [CompanyScalarFieldEnum!], $where: CompanyWhereInput,
 mutation Login($loginInput: LoginInput!) {
   login(loginInput: $loginInput) {
     token
+    user{
+      uid
+      name
+      image
+    }
   }
 }
 
-mutation RegisterWithProvider($createUserWithProviderInput: RegisterWithProviderInput!) {
-  registerWithProvider(createUserWithProviderInput: $createUserWithProviderInput) {
+mutation RegisterWithProvider($registerWithProviderInput: RegisterWithProviderInput!) {
+  registerWithProvider(registerWithProviderInput: $registerWithProviderInput) {
     updatedAt
     uid
     name
