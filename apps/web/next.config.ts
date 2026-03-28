@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  transpilePackages: ['@findmyspot/ui', '@findmyspot/network', '@findmyspot/forms'],
 };
 
 export default nextConfig;

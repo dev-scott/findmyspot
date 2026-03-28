@@ -5,6 +5,9 @@ import {
   RestrictProperties,
   StringFilter,
 } from 'src/common/dtos/common.input'
+import { CustomerRelationFilter } from 'src/models/customers/graphql/dtos/where.args'
+import { ManagerRelationFilter } from 'src/models/managers/graphql/dtos/where.args'
+import { ValetRelationFilter } from 'src/models/valets/graphql/dtos/where.args'
 
 @InputType()
 export class UserWhereUniqueInput {
@@ -16,6 +19,9 @@ export class UserWhereInputStrict implements RestrictProperties<
   UserWhereInputStrict,
   Omit<Prisma.UserWhereInput, 'Credentials' | 'AuthProvider' | 'Admin' | "image">
 > {
+  Manager:ManagerRelationFilter
+  Valet: ValetRelationFilter
+  Customer: CustomerRelationFilter
   uid: StringFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter

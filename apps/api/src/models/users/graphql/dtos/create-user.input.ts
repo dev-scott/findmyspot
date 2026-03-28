@@ -37,4 +37,5 @@ export class LoginInput extends PickType(
 @ObjectType()
 export class LoginOutput {
   token: string
+  user:User
 }

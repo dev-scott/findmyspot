@@ -1,0 +1,1 @@
+import '@findmyspot/network/next-auth'
