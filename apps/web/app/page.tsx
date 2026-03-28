@@ -3,6 +3,7 @@
 import { add } from "@findmyspot/sample-lib";
 import { useQuery } from "@apollo/client/react";
 import { CompaniesDocument } from "@findmyspot/network/src/gql/generated"
+import { BrandIcon } from "@findmyspot/ui/app/components/atoms/BrandIcon"
 export default function Home() {
 
   const { data, loading } = useQuery(CompaniesDocument, {
@@ -10,7 +11,9 @@ export default function Home() {
   })
   console.log("companies data", data)
   return (
-    <main className="bg-primary">
+    <main className="">
+      <BrandIcon />
+
 
       Hello
 

@@ -1,8 +1,8 @@
 'use client'
-import { Role } from '@autospace/util/types'
-import { useFormRegister } from '@autospace/forms/src/register'
-import { useMutation } from '@apollo/client'
-import { RegisterWithCredentialsDocument } from '@autospace/network/src/gql/generated'
+import { Role } from '@findmyspot/util/types'
+import { useFormRegister } from '@findmyspot/forms/src/register'
+import { useMutation } from '@apollo/client/react'
+import { RegisterWithCredentialsDocument } from '@findmyspot/network/src/gql/generated'
 import { Form } from '../atoms/Form'
 import { signIn } from 'next-auth/react'
 import { HtmlLabel } from '../atoms/HtmlLabel'
@@ -21,21 +21,21 @@ export const RegisterForm = ({ className, role }: ISignupFormProps) => {
     formState: { errors },
   } = useFormRegister()
 
-  const [registerWithCredentials, { loading, data }] = useMutation(
+  const [registerWithCredentials, { loading, data, error }] = useMutation(
     RegisterWithCredentialsDocument,
   )
 
   return (
     <Form
       onSubmit={handleSubmit(async (formData) => {
-        const { data, errors } = await registerWithCredentials({
+        const { data } = await registerWithCredentials({
           variables: {
             registerWithCredentialsInput: formData,
           },
         })
 
-        if (errors) {
-          alert(errors)
+        if (error) {
+          alert(error.message)
         }
 
         if (data) {

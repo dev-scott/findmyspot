@@ -1,6 +1,6 @@
 'use client'
-import { CarScene } from '@autospace/3d/src/scenes/CarScene'
-import { RotatingCamera } from '@autospace/3d/src/components/camera/Rotating'
+// import { CarScene } from '@autospace/3d/src/scenes/CarScene'
+// import { RotatingCamera } from '@autospace/3d/src/components/camera/Rotating'
 import { IconArrowBack } from '@tabler/icons-react'
 import Link from 'next/link'
 import { ReactNode } from 'react'
@@ -15,11 +15,11 @@ export interface IAuthLayoutProps {
 export const AuthLayout = ({ title, children }: IAuthLayoutProps) => {
   return (
     <div className="relative h-[calc(100vh-4rem)]  ">
-      <CarScene
+      {/* <CarScene
         orbitControls={false}
         camera={<RotatingCamera />}
         hideAllComments
-      />
+      /> */}
       <div className=" flex flex-col justify-center items-center absolute top-0 bg-black/20 backdrop-blur-sm bottom-0  ">
         <div className="p-4 text-white ">
           <div className="w-full max-w-lg mx-auto ">

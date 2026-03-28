@@ -1,4 +1,4 @@
-import { SlotType } from '@autospace/network/src/gql/generated'
+import { SlotType } from '@findmyspot/network/src/gql/generated'
 import {
   IconBike,
   IconMotorbike,
