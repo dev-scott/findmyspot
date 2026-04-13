@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
-import uiConfig from '../../libs/ui/tailwind.config'
+// @ts-expect-error TypeScript doesn't like .ts extension in imports without allowImportingTsExtensions
+import uiConfig from '../../libs/ui/tailwind.config.ts'
 
 const config: Config = {
   presets: [uiConfig],

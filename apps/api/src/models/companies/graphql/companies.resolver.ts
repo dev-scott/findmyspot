@@ -23,7 +23,7 @@ export class CompaniesResolver {
     checkRowLevelPermission(user, managerId)
     return this.companiesService.create(args)
   }
-
+  @AllowAuthenticated()
   @Query(() => [Company], { name: 'companies' })
   findAll(@Args() args: FindManyCompanyArgs) {
     return this.companiesService.findAll(args)
@@ -50,7 +50,7 @@ export class CompaniesResolver {
     return this.companiesService.remove(args)
   }
 
-   @ResolveField(() => [Garage])
+  @ResolveField(() => [Garage])
   garages(@Parent() company: Company) {
     return this.prisma.garage.findMany({ where: { companyId: company.id } })
   }

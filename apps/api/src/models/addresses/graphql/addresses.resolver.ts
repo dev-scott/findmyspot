@@ -79,4 +79,9 @@ export class AddressesResolver {
   garage(@Parent() address: Address) {
     return this.prisma.company.findFirst({ where: { id: address.garageId } })
   }
+
+
+
+
+
 }
