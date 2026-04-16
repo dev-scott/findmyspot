@@ -1,10 +1,10 @@
-import { useTakeSkip } from '@autospace/util/hooks/pagination'
+import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
 import { useQuery } from '@apollo/client'
 import {
   BookingStatus,
   MyDropTripsDocument,
   SortOrder,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { ShowData } from './ShowData'
 import { ValetTripCard } from './ValetTripCard'
 import { Reveal } from '../molecules/Reveal'

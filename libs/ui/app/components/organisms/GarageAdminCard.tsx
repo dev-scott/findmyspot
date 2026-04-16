@@ -1,4 +1,4 @@
-import { GaragesQuery } from '@autospace/network/src/gql/generated'
+import { GaragesQuery } from '@findmyspot/network/src/gql/generated'
 import { ReactNode } from 'react'
 import { MapLink } from '../molecules/MapLink'
 import { IconTypes } from '../molecules/IconTypes'

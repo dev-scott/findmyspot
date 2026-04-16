@@ -79,7 +79,7 @@ export const RegisterForm = ({ className, role }: ISignupFormProps) => {
         Register
       </Button>
       <div className="mt-4 text-sm ">
-        Already have an autospace account?
+        Already have an findmyspot account?
         <br />
         <Link href="/login" className="font-bold underline underline-offset-4">
           Login

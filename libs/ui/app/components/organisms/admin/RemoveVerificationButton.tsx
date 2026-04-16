@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import {
   RemoveVerificationDocument,
   namedOperations,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { Button } from '../../atoms/Button'
 
 export const RemoveVerificationButton = ({

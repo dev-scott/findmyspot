@@ -2,11 +2,11 @@ import {
   BookingStatus,
   BookingsForGarageDocument,
   QueryMode,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { IconSearch } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
-import { useTakeSkip } from '@autospace/util/hooks/pagination'
+import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
 import { ShowData } from './ShowData'
 import { ManageBookingCard } from './ManageBookingCard'
 import { CheckInOutButton } from './CheckInOutButtons'

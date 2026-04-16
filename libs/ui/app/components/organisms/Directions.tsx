@@ -1,5 +1,5 @@
-import { useDebounce } from '@autospace/util/hooks/async'
-import { LatLng, LngLatTuple } from '@autospace/util/types'
+import { useDebounce } from '@findmyspot/util/hooks/async'
+import { LatLng, LngLatTuple } from '@findmyspot/util/types'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Source, Layer } from 'react-map-gl'
 
@@ -38,27 +38,27 @@ export const Directions = ({
 
     prevOriginRef.current = originDebounced
     prevDestinationRef.current = destinationDebounced
-    ;(async () => {
-      const response = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/${originDebounced.lng},${originDebounced.lat};${destinationDebounced.lng},${destinationDebounced.lat}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}&steps=true&overview=simplified`,
-      )
+      ; (async () => {
+        const response = await fetch(
+          `https://api.mapbox.com/directions/v5/mapbox/driving/${originDebounced.lng},${originDebounced.lat};${destinationDebounced.lng},${destinationDebounced.lat}?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}&steps=true&overview=simplified`,
+        )
 
-      const data = await response.json()
+        const data = await response.json()
 
-      const coordinates =
-        data?.routes[0]?.legs[0]?.steps?.map(
-          (step: { maneuver: { location: any } }) => step.maneuver.location,
-        ) || []
+        const coordinates =
+          data?.routes[0]?.legs[0]?.steps?.map(
+            (step: { maneuver: { location: any } }) => step.maneuver.location,
+          ) || []
 
-      const newDistance = data.routes[0].distance || 0
+        const newDistance = data.routes[0].distance || 0
 
-      setCoordinates(coordinates)
+        setCoordinates(coordinates)
 
-      if (newDistance !== prevDistanceRef.current && setDistance) {
-        setDistance(newDistance)
-        prevDistanceRef.current = newDistance
-      }
-    })()
+        if (newDistance !== prevDistanceRef.current && setDistance) {
+          setDistance(newDistance)
+          prevDistanceRef.current = newDistance
+        }
+      })()
   }, [originDebounced, destinationDebounced, setDistance])
 
   const dataOne = useMemo(

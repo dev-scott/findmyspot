@@ -1,10 +1,10 @@
-import { useFormCreateManySlots } from '@autospace/forms/src/createSlots'
+import { useFormCreateManySlots } from '@findmyspot/forms/src/createSlots'
 import { useMutation } from '@apollo/client'
 import {
   CreateManySlotsDocument,
   SlotType,
   namedOperations,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { useState } from 'react'
 import { Button } from '../atoms/Button'
 import { Dialog } from '../atoms/Dialog'

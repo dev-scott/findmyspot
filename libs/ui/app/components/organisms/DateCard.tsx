@@ -1,4 +1,4 @@
-import { differenceInTime, getTimeUnits } from '@autospace/util/date'
+import { differenceInTime, getTimeUnits } from '@findmyspot/util/date'
 import { IconArrowRightRhombus } from '@tabler/icons-react'
 import { format } from 'date-fns'
 
@@ -37,9 +37,8 @@ export const DateCard = ({
 
   return (
     <div
-      className={`flex flex-col  ${
-        justify === 'left' ? 'items-start' : 'items-end'
-      }`}
+      className={`flex flex-col  ${justify === 'left' ? 'items-start' : 'items-end'
+        }`}
     >
       <div className="text-xl">{time}</div>
       <div className="text-xs text-gray-500">{date}</div>

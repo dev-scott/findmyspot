@@ -1,9 +1,9 @@
 import {
   BookingStatus,
   ValetPickupsDocument,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { useQuery } from '@apollo/client'
-import { useTakeSkip } from '@autospace/util/hooks/pagination'
+import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
 import { ShowData } from './ShowData'
 import { ValetTripCard } from './ValetTripCard'
 import { AssignValetButton } from './AssignValetButton'

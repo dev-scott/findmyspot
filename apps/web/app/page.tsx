@@ -1,9 +1,16 @@
 'use client'
-// import { CarScene } from '@autospace/3d/src/scenes/CarScene'
+import { useQuery } from '@apollo/client/react'
+import { SearchGaragesDocument } from '@findmyspot/network'
+// import { CarScene } from '@findmyspot/3d/src/scenes/CarScene'
 import { IconSearch } from '@tabler/icons-react'
 import Link from 'next/link'
 
 export default function Home() {
+
+
+  const { data: garages } = useQuery(SearchGaragesDocument, { variables: { dateFilter: { end: '2026-05-16', start: '2024-05-13' }, locationFilter: { ne_lat: 90, ne_lng: 180, sw_lat: -90, sw_lng: -180 } }, })
+  console.log("here is the garage i search:", garages)
+
   return (
     <main className="h-[calc(100vh-4rem)] ">
       <div className="absolute top-16 bottom-0 left-0 right-0">
@@ -20,6 +27,12 @@ export default function Home() {
         >
           <IconSearch /> Search now
         </Link>
+      </div>
+
+      <div>
+        {garages?.searchGarages?.map((garage) => (
+          <pre key={garage.id}>{JSON.stringify(garage, null, 2)}</pre>
+        ))}
       </div>
     </main>
   )
