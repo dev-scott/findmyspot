@@ -1,7 +1,7 @@
 import { useDebounce } from '@findmyspot/util/hooks/async'
 import { LatLng, LngLatTuple } from '@findmyspot/util/types'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Source, Layer } from 'react-map-gl'
+import { Source, Layer } from 'react-map-gl/mapbox'
 
 export const Directions = ({
   origin,

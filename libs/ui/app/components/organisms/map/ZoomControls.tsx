@@ -2,7 +2,7 @@ import { MouseEventHandler, ReactNode } from 'react'
 
 import { IconMinus, IconParking, IconPlus } from '@tabler/icons-react'
 
-import { useMap } from 'react-map-gl'
+import { useMap } from 'react-map-gl/mapbox'
 
 export interface IZoomControlsProps {}
 

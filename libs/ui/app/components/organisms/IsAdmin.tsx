@@ -1,6 +1,6 @@
 'use client'
 import { AdminMeDocument } from '@findmyspot/network/src/gql/generated'
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { LoaderPanel } from '../molecules/Loader'
 import { AlertSection } from '../molecules/AlertSection'
 import { ReactNode } from 'react'

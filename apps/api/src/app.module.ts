@@ -21,6 +21,7 @@ import { BookingTimelinesModule } from './models/booking-timelines/booking-timel
 import { ReviewsModule } from './models/reviews/reviews.module'
 import { VerificationsModule } from './models/verifications/verifications.module'
 import { CompaniesModule } from './models/companies/companies.module'
+import { StripeModule } from './models/stripe/stripe.module'
 
 const MAX_PAGE = 24 * 60 * 60
 
@@ -49,6 +50,7 @@ const MAX_PAGE = 24 * 60 * 60
       },
     }),
     PrismaModule,
+    StripeModule,
     UsersModule,
     AdminsModule,
     CustomersModule,

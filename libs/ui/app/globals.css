@@ -1,4 +1,8 @@
 @import "tailwindcss";
+
+@import 'mapbox-gl/dist/mapbox-gl.css';
+
+
 @config "../tailwind.config.ts"; /* <--- Ajoutez cette ligne ! */
 
 /* 

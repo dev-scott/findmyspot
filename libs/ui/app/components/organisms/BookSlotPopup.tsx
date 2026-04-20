@@ -76,7 +76,7 @@ export const BookSlotPopup = ({
             garageId: garage.id,
             vehicleNumber: data.vehicleNumber,
             totalPrice,
-            pricePerHour,
+            pricePerHour: pricePerHour!,
             ...(data.valet?.pickupInfo && data.valet?.dropoffInfo
               ? {
                   valetAssignment: {

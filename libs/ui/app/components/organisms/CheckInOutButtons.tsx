@@ -3,7 +3,7 @@ import {
   CreateBookingTimelineDocument,
   namedOperations,
 } from '@findmyspot/network/src/gql/generated'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { Button } from '../atoms/Button'
 
 export const CheckInOutButton = ({

@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client/react'
 import { SearchGaragesDocument } from '@findmyspot/network/src/gql/generated'
 import { useEffect } from 'react'
 import { GarageMarker } from './GarageMarker'

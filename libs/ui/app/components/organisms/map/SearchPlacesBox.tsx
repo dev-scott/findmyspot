@@ -1,5 +1,5 @@
 import { LocationInfo, ViewState } from '@findmyspot/util/types'
-import { useMap } from 'react-map-gl'
+import { useMap } from 'react-map-gl/mapbox'
 import { Autocomplete } from '../../atoms/Autocomplete'
 import { useSearchLocation } from '@findmyspot/util/hooks/location'
 import { majorCitiesLocationInfo } from '@findmyspot/util/constants'

@@ -1,5 +1,5 @@
 import { useFormCreateManySlots } from '@findmyspot/forms/src/createSlots'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import {
   CreateManySlotsDocument,
   SlotType,

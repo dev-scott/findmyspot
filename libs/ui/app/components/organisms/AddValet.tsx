@@ -8,7 +8,7 @@ import { Controller } from 'react-hook-form'
 import { HtmlInput } from '../atoms/HtmlInput'
 import { HtmlLabel } from '../atoms/HtmlLabel'
 import { useCloudinaryUpload } from '@findmyspot/util/hooks/cloudinary'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import {
   CreateValetDocument,
   namedOperations,

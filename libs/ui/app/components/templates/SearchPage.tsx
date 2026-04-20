@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { Map } from '../organisms/map/Map'
 import { Panel } from '../organisms/map/Panel'
 import { DefaultZoomControls } from '../organisms/map/ZoomControls'
-import { ViewStateChangeEvent } from 'react-map-gl'
+import { ViewStateChangeEvent } from 'react-map-gl/mapbox'
 import { initialViewState } from '@findmyspot/util/constants'
 import { SearchPlaceBox } from '../organisms/map/SearchPlacesBox'
 import { useFormContext } from 'react-hook-form'
@@ -25,6 +25,8 @@ export const SearchPage = () => {
   } = useFormContext<FormTypeSearchGarage>()
   console.log('errors ', errors)
   const formData = watch()
+
+  console.log("formData", formData)
 
   const handleMapChange = useCallback(
     (target: ViewStateChangeEvent['target']) => {
