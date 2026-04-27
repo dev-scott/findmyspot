@@ -1,4 +1,4 @@
-import { LatLng } from '@autospace/util/types'
+import { LatLng } from '@findmyspot/util/types'
 import polyline from '@mapbox/polyline'
 import Image from 'next/image'
 
@@ -37,15 +37,12 @@ export const StaticMapDirections = ({
 
   const paddingString = padding.join(',')
 
-  const url = `https://api.mapbox.com/styles/v1/iamkarthick/clk4em1h900i201pf3jvuei21/static/pin-s-a+000(${
-    start.lng
-  },${start.lat}),pin-s-b+000(${end.lng},${
-    end.lat
-  }),path-2+000(${encodeURIComponent(
-    encodedPolyline,
-  )})/[${boundingBox}]/600x600?padding=${paddingString}&access_token=${
-    process.env.NEXT_PUBLIC_MAPBOX_TOKEN
-  }`
+  const url = `https://api.mapbox.com/styles/v1/iamkarthick/clk4em1h900i201pf3jvuei21/static/pin-s-a+000(${start.lng
+    },${start.lat}),pin-s-b+000(${end.lng},${end.lat
+    }),path-2+000(${encodeURIComponent(
+      encodedPolyline,
+    )})/[${boundingBox}]/600x600?padding=${paddingString}&access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN
+    }`
 
   return (
     <Image

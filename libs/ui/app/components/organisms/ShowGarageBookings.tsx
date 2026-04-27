@@ -2,11 +2,11 @@ import {
   BookingStatus,
   BookingsForGarageDocument,
   QueryMode,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { IconSearch } from '@tabler/icons-react'
 import { useState } from 'react'
-import { useQuery } from '@apollo/client'
-import { useTakeSkip } from '@autospace/util/hooks/pagination'
+import { useQuery } from '@apollo/client/react'
+import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
 import { ShowData } from './ShowData'
 import { ManageBookingCard } from './ManageBookingCard'
 import { CheckInOutButton } from './CheckInOutButtons'
@@ -26,6 +26,7 @@ export const ShowGarageBookings = ({
   const { take, setTake, skip, setSkip } = useTakeSkip()
 
   const { data, loading, error } = useQuery(BookingsForGarageDocument, {
+    skip: !garageId || Number.isNaN(garageId),
     variables: {
       skip,
       take,

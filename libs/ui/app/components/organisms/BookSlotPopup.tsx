@@ -1,11 +1,11 @@
 'use client'
-import { FormTypeBookSlot } from '@autospace/forms/src/bookSlot'
+import { FormTypeBookSlot } from '@findmyspot/forms/src/bookSlot'
 import { loadStripe } from '@stripe/stripe-js'
 
 import {
   CreateBookingInput,
   SearchGaragesQuery,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { useFormContext, useWatch, Controller } from 'react-hook-form'
 import { Form } from '../atoms/Form'
 import { Badge } from '../atoms/Badge'
@@ -16,13 +16,13 @@ import { Radio, RadioGroup } from '@headlessui/react'
 import { IconTypes } from '../molecules/IconTypes'
 import { FormError } from '../atoms/FormError'
 import { HtmlInput } from '../atoms/HtmlInput'
-import { toLocalISOString } from '@autospace/util/date'
-import { useTotalPrice } from '@autospace/util/hooks/price'
+import { toLocalISOString } from '@findmyspot/util/date'
+import { useTotalPrice } from '@findmyspot/util/hooks/price'
 import { CostTitleValue } from '../molecules/CostTitleValue'
 import { Button } from '../atoms/Button'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { TotalPrice } from '@autospace/util/types'
+import { TotalPrice } from '@findmyspot/util/types'
 import { ManageValets } from './ManageValets'
 import { toast } from '../molecules/Toast'
 
@@ -76,7 +76,7 @@ export const BookSlotPopup = ({
             garageId: garage.id,
             vehicleNumber: data.vehicleNumber,
             totalPrice,
-            pricePerHour,
+            pricePerHour: pricePerHour!,
             ...(data.valet?.pickupInfo && data.valet?.dropoffInfo
               ? {
                   valetAssignment: {

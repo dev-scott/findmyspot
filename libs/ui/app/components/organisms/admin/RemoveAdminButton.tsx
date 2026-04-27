@@ -1,8 +1,8 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import {
   RemoveAdminDocument,
   namedOperations,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { Button } from '../../atoms/Button'
 import { IconTrash } from '@tabler/icons-react'
 import { Dialog } from '../../atoms/Dialog'

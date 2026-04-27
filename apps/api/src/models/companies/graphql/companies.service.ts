@@ -35,6 +35,7 @@ export class CompaniesService {
     })
   }
 
+  
   findAll(args: FindManyCompanyArgs) {
     return this.prisma.company.findMany(args)
   }

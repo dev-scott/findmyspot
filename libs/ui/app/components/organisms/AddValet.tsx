@@ -1,4 +1,4 @@
-import { useFormCreateValet } from '@autospace/forms/src/createValet'
+import { useFormCreateValet } from '@findmyspot/forms/src/createValet'
 import { useState } from 'react'
 import { Button } from '../atoms/Button'
 import { Dialog } from '../atoms/Dialog'
@@ -7,12 +7,12 @@ import { ImagePreview } from './ImagePreview'
 import { Controller } from 'react-hook-form'
 import { HtmlInput } from '../atoms/HtmlInput'
 import { HtmlLabel } from '../atoms/HtmlLabel'
-import { useCloudinaryUpload } from '@autospace/util/hooks/cloudinary'
-import { useMutation } from '@apollo/client'
+import { useCloudinaryUpload } from '@findmyspot/util/hooks/cloudinary'
+import { useMutation } from '@apollo/client/react'
 import {
   CreateValetDocument,
   namedOperations,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 import { toast } from '../molecules/Toast'
 
 export const AddValet = () => {

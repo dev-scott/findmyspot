@@ -1,10 +1,10 @@
 import {
   BookingStatus,
   BookingsForCustomerDocument,
-} from '@autospace/network/src/gql/generated'
-import { useTakeSkip } from '@autospace/util/hooks/pagination'
+} from '@findmyspot/network/src/gql/generated'
+import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
 import { useSession } from 'next-auth/react'
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { useLazyQuery, useQuery } from '@apollo/client/react'
 import { useEffect } from 'react'
 import { ShowData } from './ShowData'
 import { CustomerBookingCard } from './CustomerBookingCard'

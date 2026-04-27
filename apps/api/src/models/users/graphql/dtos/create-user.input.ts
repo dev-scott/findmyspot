@@ -19,11 +19,9 @@ export class RegisterWithProviderInput extends PickType(
 }
 
 @InputType()
-export class registerWithCredentialsInput {
-  name: string
+export class registerWithCredentialsInput extends PickType(User , ['name','image'],InputType) {
   email: string
   password: string
-  image?: string
 }
 
 

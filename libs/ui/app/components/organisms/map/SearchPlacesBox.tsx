@@ -1,8 +1,8 @@
-import { LocationInfo, ViewState } from '@autospace/util/types'
-import { useMap } from 'react-map-gl'
+import { LocationInfo, ViewState } from '@findmyspot/util/types'
+import { useMap } from 'react-map-gl/mapbox'
 import { Autocomplete } from '../../atoms/Autocomplete'
-import { useSearchLocation } from '@autospace/util/hooks/location'
-import { majorCitiesLocationInfo } from '@autospace/util/constants'
+import { useSearchLocation } from '@findmyspot/util/hooks/location'
+import { majorCitiesLocationInfo } from '@findmyspot/util/constants'
 
 export const SearchPlaceBox = ({
   onLocationChange,

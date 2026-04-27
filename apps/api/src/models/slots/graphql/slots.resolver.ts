@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, ResolveField, Parent } from '@nestjs/graphql'
 import { SlotsService } from './slots.service'
-import { Slot } from './entity/slot.entity'
+import { ReturnCount, Slot } from './entity/slot.entity'
 import { FindManySlotArgs, FindUniqueSlotArgs } from './dtos/find.args'
 import { CreateSlotInput } from './dtos/create-slot.input'
 import { UpdateSlotInput } from './dtos/update-slot.input'
@@ -94,5 +94,43 @@ export class SlotsResolver {
   bookings(@Parent() slot: Slot) {
     return this.prisma.booking.findMany({ where: { slotId: slot.id } })
   }
+
+
+   @AllowAuthenticated('manager')
+  @Mutation(() => ReturnCount)
+  async createManySlots(
+    @Args('createSlotInput') args: CreateSlotInput,
+    @Args('count', {
+      type: () => Number,
+    })
+    count: number,
+    @GetUser() user: GetUserType,
+  ) {
+    const garage = await this.prisma.garage.findUnique({
+      where: { id: args.garageId },
+      include: {
+        Company: {
+          include: { Managers: true },
+        },
+      },
+    })
+
+    checkRowLevelPermission(
+      user,
+      garage?.Company.Managers.map((manager) => manager.uid),
+    )
+
+    const typeCount = await this.prisma.slot.count({
+      where: { garageId: args.garageId, type: args.type },
+    })
+
+    const slots = Array.from({ length: count }).map((num, index) => ({
+      ...args,
+      displayName: `${args.type} ${typeCount + index + 1}`,
+    }))
+
+    return this.prisma.slot.createMany({ data: slots })
+  }
+
 
 }

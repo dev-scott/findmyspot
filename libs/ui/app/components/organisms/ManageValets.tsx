@@ -1,8 +1,8 @@
-import { SearchGaragesQuery } from '@autospace/network/src/gql/generated'
+import { SearchGaragesQuery } from '@findmyspot/network/src/gql/generated'
 import { useState } from 'react'
 import { toast } from '../molecules/Toast'
 import { useFormContext, useWatch } from 'react-hook-form'
-import { FormTypeBookSlot } from '@autospace/forms/src/bookSlot'
+import { FormTypeBookSlot } from '@findmyspot/forms/src/bookSlot'
 import { Switch } from '../atoms/Switch'
 import { dividerClasses } from '@mui/material'
 import { Marker } from './map/MapMarker'
@@ -142,8 +142,8 @@ export const ManageValets = ({
             ) : null}
 
             {valet?.differentLocations &&
-            valet?.dropoffInfo?.lng &&
-            valet?.dropoffInfo?.lat ? (
+              valet?.dropoffInfo?.lng &&
+              valet?.dropoffInfo?.lat ? (
               <>
                 <Marker
                   pitchAlignment="auto"

@@ -1,4 +1,4 @@
-import MapGl, { useMap } from 'react-map-gl'
+import MapGl, { useMap } from 'react-map-gl/mapbox'
 
 type MapProps = React.ComponentProps<typeof MapGl> & { height?: string }
 

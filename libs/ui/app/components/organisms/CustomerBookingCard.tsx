@@ -1,4 +1,4 @@
-import { BookingsForCustomerQuery } from '@autospace/network/src/gql/generated'
+import { BookingsForCustomerQuery } from '@findmyspot/network/src/gql/generated'
 import { StartEndDateCard } from './DateCard'
 import { MapLink } from '../molecules/MapLink'
 import { StaticMapSimple } from './map/StaticMapSimple'

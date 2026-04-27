@@ -1,10 +1,10 @@
 import {
   GaragesDocument,
   MyCompanyQuery,
-} from '@autospace/network/src/gql/generated'
-import { useTakeSkip } from '@autospace/util/hooks/pagination'
-import { useQuery } from '@apollo/client'
-import {} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
+import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
+import { useQuery } from '@apollo/client/react'
+import { } from '@findmyspot/network/src/gql/generated'
 import { ShowData } from './ShowData'
 import { dividerClasses } from '@mui/material'
 import { IconPlus } from '@tabler/icons-react'

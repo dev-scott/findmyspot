@@ -1,5 +1,5 @@
 'use client'
-import { useFormCreateCompany } from '@autospace/forms/src/createCompany'
+import { useFormCreateCompany } from '@findmyspot/forms/src/createCompany'
 import { Button } from '../atoms/Button'
 import { Dialog } from '../atoms/Dialog'
 import { useEffect, useState } from 'react'
@@ -8,11 +8,11 @@ import { HtmlInput } from '../atoms/HtmlInput'
 import { Form } from '../atoms/Form'
 import { HtmlTextArea } from '../atoms/HtmlTextArea'
 import { useSession } from 'next-auth/react'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import {
   CreateCompanyDocument,
   namedOperations,
-} from '@autospace/network/src/gql/generated'
+} from '@findmyspot/network/src/gql/generated'
 
 export const CreateCompany = () => {
   const {

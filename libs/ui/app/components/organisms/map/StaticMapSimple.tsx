@@ -1,4 +1,4 @@
-import Image from 'next/image'
+// import Image from 'next/image'
 
 export const StaticMapSimple = ({
   position,
@@ -16,7 +16,7 @@ export const StaticMapSimple = ({
   const url = `https://api.mapbox.com/styles/v1/iamkarthick/clk4em1h900i201pf3jvuei21/static/pin-s(${position.lng},${position.lat})/${position.lng},${position.lat},9,0/600x600?access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
 
   return (
-    <Image
+    <img
       src={url}
       alt="Map"
       className={` ${className}`}

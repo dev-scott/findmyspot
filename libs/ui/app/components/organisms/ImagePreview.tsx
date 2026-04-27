@@ -1,4 +1,4 @@
-import { BaseComponent } from '@autospace/util/types'
+import { BaseComponent } from '@findmyspot/util/types'
 import { IconTrash } from '@tabler/icons-react'
 import Image from 'next/image'
 

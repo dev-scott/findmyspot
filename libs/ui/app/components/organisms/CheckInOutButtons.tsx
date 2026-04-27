@@ -2,8 +2,8 @@ import {
   BookingStatus,
   CreateBookingTimelineDocument,
   namedOperations,
-} from '@autospace/network/src/gql/generated'
-import { useMutation } from '@apollo/client'
+} from '@findmyspot/network/src/gql/generated'
+import { useMutation } from '@apollo/client/react'
 import { Button } from '../atoms/Button'
 
 export const CheckInOutButton = ({
