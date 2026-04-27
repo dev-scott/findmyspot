@@ -1,5 +1,5 @@
 import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import {
   BookingStatus,
   MyPickupTripsDocument,

@@ -4,7 +4,7 @@ import {
   namedOperations,
 } from '@findmyspot/network/src/gql/generated'
 import { ReactNode } from 'react'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { toast } from '../molecules/Toast'
 import { Button } from '../atoms/Button'
 

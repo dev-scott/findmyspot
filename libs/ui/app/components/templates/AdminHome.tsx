@@ -1,6 +1,6 @@
 'use client'
 import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { GaragesDocument } from '@findmyspot/network/src/gql/generated'
 import { ShowData } from '../organisms/ShowData'
 import { GarageAdminCard } from '../organisms/GarageAdminCard'

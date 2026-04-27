@@ -3,7 +3,7 @@ import {
   MyCompanyQuery,
 } from '@findmyspot/network/src/gql/generated'
 import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { } from '@findmyspot/network/src/gql/generated'
 import { ShowData } from './ShowData'
 import { dividerClasses } from '@mui/material'

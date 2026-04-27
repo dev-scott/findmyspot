@@ -2,7 +2,7 @@ import {
   BookingStatus,
   ValetPickupsDocument,
 } from '@findmyspot/network/src/gql/generated'
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
 import { ShowData } from './ShowData'
 import { ValetTripCard } from './ValetTripCard'

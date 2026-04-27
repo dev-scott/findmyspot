@@ -59,6 +59,14 @@ export class CompaniesResolver {
   managers(@Parent() company: Company) {
     return this.prisma.manager.findMany({ where: { companyId: company.id } })
   }
+
+  @AllowAuthenticated()
+  @Query(() => Company)
+  myCompany(@GetUser() user: GetUserType) {
+    return this.prisma.company.findFirst({
+      where: { Managers: { some: { uid: user.uid } } },
+    })
+  }
 }
 
 

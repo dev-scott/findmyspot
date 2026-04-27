@@ -4,7 +4,7 @@ import {
   FormTypeCreateGarage,
   useFormCreateGarage,
 } from '@findmyspot/forms/src/createGarage'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { useCloudinaryUpload } from '@findmyspot/util/hooks/cloudinary'
 import {
   CreateGarageDocument,

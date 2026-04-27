@@ -24,7 +24,9 @@ export const useCloudinaryUpload = () => {
         )
 
         if (!response.ok) {
-          throw new Error('Upload failed')
+          const errorData = await response.text()
+          console.error('Cloudinary upload failed:', errorData)
+          throw new Error('Upload failed: ' + errorData)
         }
 
         const data = await response.json()
@@ -35,8 +37,9 @@ export const useCloudinaryUpload = () => {
 
       const uploadedImages = await Promise.all(uploadPromises)
       return uploadedImages
-    } catch (error) {
-      throw new Error('Upload failed')
+    } catch (error: any) {
+      console.error(error)
+      throw new Error(error.message || 'Upload failed')
     } finally {
       setUploading(false)
     }

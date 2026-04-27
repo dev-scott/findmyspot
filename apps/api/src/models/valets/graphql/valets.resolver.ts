@@ -8,17 +8,28 @@ import { checkRowLevelPermission } from 'src/common/auth/util'
 import { GetUserType } from 'src/common/types'
 import { AllowAuthenticated, GetUser } from 'src/common/auth/auth.decorator'
 import { PrismaService } from 'src/common/prisma/prisma.service'
+import { ValetWhereInput } from './dtos/where.args'
+import { Booking } from 'src/models/bookings/graphql/entity/booking.entity'
+import { PaginationInput } from 'src/common/dtos/common.input'
+import { BookingStatus } from 'generated/prisma/enums'
+import { BadGatewayException } from '@nestjs/common'
 
 @Resolver(() => Valet)
 export class ValetsResolver {
   constructor(private readonly valetsService: ValetsService,
-    private readonly prisma: PrismaService) {}
+    private readonly prisma: PrismaService) { }
 
   @AllowAuthenticated()
   @Mutation(() => Valet)
-  createValet(@Args('createValetInput') args: CreateValetInput, @GetUser() user: GetUserType) {
-    checkRowLevelPermission(user, args.uid)
-    return this.valetsService.create(args)
+ async createValet(@Args('createValetInput') args: CreateValetInput, @GetUser() user: GetUserType) {
+    const company = await this.prisma.company.findFirst({
+      where: { Managers: { some: { uid: user.uid } } },
+    })
+
+    if (!company) {
+      throw new BadGatewayException('You do not have a company.')
+    }
+    return this.valetsService.create({ ...args, companyId: company.id })
   }
 
   @Query(() => [Valet], { name: 'valets' })
@@ -46,4 +57,178 @@ export class ValetsResolver {
     checkRowLevelPermission(user, valet?.uid)
     return this.valetsService.remove(args)
   }
+
+  @AllowAuthenticated()
+  @Query(() => Valet, { name: 'valetMe', nullable: true })
+  valetMe(@GetUser() user: GetUserType) {
+    return this.valetsService.findOne({ where: { uid: user.uid } })
+  }
+
+
+
+
+  @AllowAuthenticated('manager', 'admin')
+  @Query(() => [Valet], { name: 'companyValets' })
+  async companyValets(
+    @Args() args: FindManyValetArgs,
+    @GetUser() user: GetUserType,
+  ) {
+    const company = await this.prisma.company.findFirst({
+      where: { Managers: { some: { uid: user.uid } } },
+    })
+    return this.valetsService.findAll({
+      ...args,
+      where: { ...args.where, companyId: { equals: company?.id } },
+    })
+  }
+
+  @AllowAuthenticated()
+  @Query(() => Number)
+  async companyValetsTotal(
+    @Args('where', { nullable: true }) where: ValetWhereInput,
+    @GetUser() user: GetUserType,
+  ) {
+    const company = await this.prisma.company.findFirst({
+      where: { Managers: { some: { uid: user.uid } } },
+    })
+
+    return this.prisma.valet.count({
+      where: { ...where, companyId: { equals: company?.id } },
+    })
+  }
+
+
+
+
+  @AllowAuthenticated('valet')
+  @Query(() => [Booking], { name: 'valetPickups' })
+  async valetPickups(
+    @Args() { skip, take }: PaginationInput,
+    @GetUser() user: GetUserType,
+  ) {
+    const valet = await this.valetsService.validValet(user.uid)
+    return this.prisma.booking.findMany({
+      skip,
+      take,
+      where: {
+        Slot: { Garage: { companyId: valet.companyId!! } },
+        ValetAssignment: {
+          pickupLat: { not: undefined },
+          pickupValetId: null,
+        },
+      },
+    })
+  }
+
+  @AllowAuthenticated()
+  @Query(() => Number)
+  async valetPickupsTotal(@GetUser() user: GetUserType) {
+    const valet = await this.valetsService.validValet(user.uid)
+    return this.prisma.booking.count({
+      where: {
+        Slot: { Garage: { companyId: valet.companyId!! } },
+        ValetAssignment: {
+          pickupLat: { not: undefined },
+          pickupValetId: null,
+        },
+      },
+    })
+  }
+
+  @AllowAuthenticated()
+  @Query(() => [Booking], { name: 'valetDrops' })
+  async valetDrops(
+    @Args() { skip, take }: PaginationInput,
+    @GetUser() user: GetUserType,
+  ) {
+    const valet = await this.valetsService.validValet(user.uid)
+
+    return this.prisma.booking.findMany({
+      skip,
+      take,
+      where: {
+        Slot: { Garage: { companyId: valet.companyId!! } },
+        ValetAssignment: {
+          returnLat: { not: null },
+          returnValetId: null,
+        },
+      },
+    })
+  }
+
+  @AllowAuthenticated()
+  @Query(() => Number)
+  async valetDropsTotal(@GetUser() user: GetUserType) {
+    const valet = await this.valetsService.validValet(user.uid)
+
+    return this.prisma.booking.count({
+      where: {
+        Slot: { Garage: { companyId: valet.companyId!! } },
+        ValetAssignment: {
+          returnLat: { not: null },
+          returnValetId: null,
+        },
+      },
+    })
+  }
+
+
+
+  @AllowAuthenticated()
+  @Mutation(() => Booking)
+  async assignValet(
+    @Args('bookingId') bookingId: number,
+    @Args('status') status: BookingStatus,
+    @GetUser() user: GetUserType,
+  ) {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      select: {
+        Slot: {
+          select: {
+            Garage: {
+              select: {
+                Company: { select: { Managers: true, Valets: true } },
+              },
+            },
+          },
+        },
+      },
+    })
+
+    checkRowLevelPermission(user, [
+      ...booking!!.Slot.Garage.Company.Managers.map((manager) => manager.uid),
+      ...booking!!.Slot.Garage.Company.Valets.map((valet) => valet.uid),
+    ])
+
+    const [updatedBooking, bookingTimeline] = await this.prisma.$transaction([
+      this.prisma.booking.update({
+        where: { id: bookingId },
+        data: {
+          status,
+          ...(status === BookingStatus.VALET_ASSIGNED_FOR_CHECK_IN && {
+            ValetAssignment: {
+              update: { pickupValetId: user.uid },
+            },
+          }),
+          ...(status === BookingStatus.VALET_ASSIGNED_FOR_CHECK_OUT && {
+            ValetAssignment: {
+              update: { returnValetId: user.uid },
+            },
+          }),
+        },
+      }),
+      this.prisma.bookingTimeline.create({
+        data: {
+          bookingId,
+          valetId: user.uid,
+          status,
+        },
+      }),
+    ])
+
+    return updatedBooking
+  }
+
+
 }

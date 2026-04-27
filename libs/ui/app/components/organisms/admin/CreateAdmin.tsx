@@ -5,7 +5,7 @@ import { useFormUid } from '@findmyspot/forms/src/createUid'
 import { Form } from '../../atoms/Form'
 import { HtmlLabel } from '../../atoms/HtmlLabel'
 import { HtmlInput } from '../../atoms/HtmlInput'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import {
   CreateAdminDocument,
   namedOperations,

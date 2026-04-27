@@ -12,3 +12,5 @@ export class CreateSlotInputWithoutGarageId extends OmitType(
 ) {
     count: number
 }
+
+

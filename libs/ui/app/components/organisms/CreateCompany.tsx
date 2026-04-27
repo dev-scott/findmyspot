@@ -8,7 +8,7 @@ import { HtmlInput } from '../atoms/HtmlInput'
 import { Form } from '../atoms/Form'
 import { HtmlTextArea } from '../atoms/HtmlTextArea'
 import { useSession } from 'next-auth/react'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import {
   CreateCompanyDocument,
   namedOperations,

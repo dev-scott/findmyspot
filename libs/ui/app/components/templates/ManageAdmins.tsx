@@ -1,6 +1,6 @@
 'use client'
 import { useTakeSkip } from '@findmyspot/util/hooks/pagination'
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client/react'
 import { AdminsDocument } from '@findmyspot/network/src/gql/generated'
 import { ShowData } from '../organisms/ShowData'
 import { AdminCard } from '../organisms/admin/AdminCard'
