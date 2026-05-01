@@ -19,8 +19,17 @@ const config: Config = {
       outlineColor: {
         DEFAULT: colorsConfig.primary.DEFAULT,
       },
+      whiteColor:{
+        DEFAULT:'#F8FAFC'
+      },
+      grayColor:{
+        DEFAULT:colorsConfig.gray
+      },
       borderRadius: {
         DEFAULT: '0',
+      },
+      fontFamily: {
+        sans: ['var(--font-space-grotesk)', 'sans-serif'],
       },
       spacing: spacingConfig,
       animation: animationConfig,

@@ -12,18 +12,18 @@ export default function Home() {
   console.log("here is the garage i search:", garages)
 
   return (
-    <main className="h-[calc(100vh-4rem)] ">
+    <main className="h-[calc(100vh-4rem)] flex flex-col  justify-center ">
       <div className="absolute top-16 bottom-0 left-0 right-0">
         <CarScene />
       </div>
-      <div className="flex flex-col items-start space-y-2 font-black text-8xl">
-        <div className="z-10 inline-block px-3 bg-primary mt-2">Need</div>{' '}
-        <div className="z-10 inline-block w-full max-w-md px-3 bg-primary ">
+      <div className="flex flex-col items-start space-y-2 font-black text-9xl">
+        <div className="z-10 inline-block px-3 bg-white mt-2">Need</div>{' '}
+        <div className="z-10 inline-block w-full max-w-md px-3 bg-white ">
           parking?
         </div>
         <Link
           href="/search"
-          className="z-10 flex items-center gap-2 px-3 py-2 text-xl font-medium text-black underline underline-offset-4 bg-primary"
+          className="z-10 flex items-center gap-2 px-3 py-2 text-xl font-medium text-black underline underline-offset-4 bg-white"
         >
           <IconSearch /> Search now
         </Link>

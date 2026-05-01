@@ -11,6 +11,7 @@ import { Button } from '../atoms/Button'
 import { useDialogState } from '@findmyspot/util/hooks/dialog'
 import { NavSidebar } from './NavSidebar'
 import { Menus } from './Menus'
+import MaxWidthWrapper from '../atoms/MaxWidthWrapper'
 
 export type IHeaderProps = {
   type?: Role
@@ -24,8 +25,8 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
 
   return (
     <header>
-      <nav className="fixed z-40 top-0 w-full shadow-md bg-white/50 backdrop-blur-md">
-        <Container className="relative   flex items-center justify-between h-16 py-2 gap-16">
+      <nav className="fixed z-40 top-0 w-full ">
+        <MaxWidthWrapper className="relative   flex items-center justify-between h-16 py-2 gap-16">
           <Link href="/" aria-label="Home" className="w-auto z-50">
             <Brand type={type} className="hidden h-10 sm:block" />
             <Brand type={type} shortForm className="block sm:hidden" />
@@ -52,7 +53,7 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
               </>
             )}
           </div>
-        </Container>
+        </MaxWidthWrapper>
       </nav>
       <div className="h-16" />
     </header>
