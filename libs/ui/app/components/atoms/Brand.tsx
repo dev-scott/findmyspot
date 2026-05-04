@@ -27,7 +27,7 @@ export const Brand = ({
                 <div>findmyspot</div>
                 {type ? <span className="text-xs">{type}</span> : null}
               </div>
-              <div className="text-xs text-gray">by Dev-scott</div>
+              {/* <div className="text-xs text-gray">by Dev-scott</div> */}
             </div>
           </div>
         )}

@@ -18,7 +18,7 @@ const variantColor = {
     primary:
       'text-black bg-primary border-2 border-primary enabled:hover:bg-primary-600',
     white: 'text-black bg-white',
-    black: 'text-primary bg-black enabled:hover:bg-gray-900',
+    black: 'text-white bg-black enabled:hover:bg-gray-900',
     success: 'text-white bg-green enabled:hover:bg-green-700',
     error: 'text-white bg-red enabled:hover:bg-red-700',
   },
@@ -70,7 +70,7 @@ export const Button = ({
     <button
       type={type}
       disabled={disabled || loading}
-      className={`rounded relative font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
+      className={`rounded cursor-pointer relative font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
       {...props}
     >
       {loading ? (

@@ -45,33 +45,37 @@ export const LoginForm = ({ className }: ILoginFormProps) => {
     >
       <HtmlLabel title="Email" error={errors.email?.message}>
         <HtmlInput
-          className="text-black"
+          className="text-gray-900 rounded-xl"
           {...register('email')}
-          placeholder="email"
+          placeholder="you@example.com"
         />
       </HtmlLabel>
       <HtmlLabel title="Password" error={errors.password?.message}>
         <HtmlInput
-          className="text-black"
+          className="text-gray-900 rounded-xl"
           type="password"
           {...register('password')}
-          placeholder="******"
+          placeholder="••••••••"
         />
       </HtmlLabel>
-      <Button type="submit" loading={loading}>
-        Submit
+      <Button
+        type="submit"
+        loading={loading}
+        className="mt-2 w-full rounded-xl font-bold"
+        style={{ backgroundColor: '#C8FF00', color: '#000' }}
+      >
+        Sign in
       </Button>
-      <div className="mt-4 text-sm">
-        Do not have an findmyspot account?
-        <br />
+      <div className="mt-4 text-sm text-gray-500">
+        Don&apos;t have an account?{' '}
         <Link
           href="/register"
-          className="font-bold underline underline-offset-4"
+          className="font-semibold text-gray-900 hover:underline underline-offset-4"
         >
           Create one
-        </Link>{' '}
-        now.
+        </Link>
       </div>
     </Form>
   )
 }
+

@@ -30,8 +30,8 @@ export const metadata: Metadata = {
 };
 
 const MENUITEMS: MenuItem[] = [
-  { label: 'Search', 'href': '/search' },
-  { label: 'Bookings', 'href': '/bookings' }
+  { label: 'Search', href: '/search' },
+  { label: 'Bookings', href: '/bookings' },
 ]
 
 export default function RootLayout({

@@ -50,42 +50,49 @@ export const RegisterForm = ({ className, role }: ISignupFormProps) => {
     >
       <HtmlLabel title="Email" error={errors.email?.message}>
         <HtmlInput
-          className="text-black"
-          placeholder="Enter the email."
+          className="text-gray-900 rounded-xl"
+          placeholder="you@example.com"
           {...register('email')}
         />
       </HtmlLabel>
       <HtmlLabel title="Password" error={errors.password?.message}>
         <HtmlInput
-          className="text-black"
+          className="text-gray-900 rounded-xl"
           type="password"
-          placeholder="······"
+          placeholder="••••••••"
           {...register('password')}
         />
       </HtmlLabel>
       <HtmlLabel title="Display name" error={errors.name?.message}>
         <HtmlInput
-          className="text-black"
-          placeholder="Enter your name."
+          className="text-gray-900 rounded-xl"
+          placeholder="John Doe"
           {...register('name')}
         />
       </HtmlLabel>
       {Object.keys(errors).length ? (
-        <div className="text-xs text-gray-600">
-          Please fix the above {Object.keys(errors).length} errors
+        <div
+          className="text-xs text-red-500 bg-red-50 px-3 py-2 rounded-lg border border-red-100"
+        >
+          Please fix the above {Object.keys(errors).length} error{Object.keys(errors).length > 1 ? 's' : ''}
         </div>
       ) : null}
-      <Button type="submit" fullWidth loading={loading}>
-        Register
+      <Button
+        type="submit"
+        fullWidth
+        loading={loading}
+        className="mt-2 rounded-xl font-bold"
+        style={{ backgroundColor: '#C8FF00', color: '#000' }}
+      >
+        Create account
       </Button>
-      <div className="mt-4 text-sm ">
-        Already have an findmyspot account?
-        <br />
-        <Link href="/login" className="font-bold underline underline-offset-4">
-          Login
-        </Link>{' '}
-        now.
+      <div className="mt-4 text-sm text-gray-500">
+        Already have an account?{' '}
+        <Link href="/login" className="font-semibold text-gray-900 hover:underline underline-offset-4">
+          Sign in
+        </Link>
       </div>
     </Form>
   )
 }
+

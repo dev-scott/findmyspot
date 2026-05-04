@@ -1,5 +1,5 @@
 'use client'
-import { IconDoorExit } from '@tabler/icons-react'
+import { IconDoorExit, IconLogin, IconUserPlus } from '@tabler/icons-react'
 import { signOut } from 'next-auth/react'
 import { Button } from '../atoms/Button'
 
