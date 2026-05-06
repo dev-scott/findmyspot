@@ -186,6 +186,7 @@ export const authOptions: NextAuthOptions = {
           uid: (token.uid as string) || '',
           email: token.email,
           name: token.name,
+          
         }
       }
       return session

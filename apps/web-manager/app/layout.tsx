@@ -42,7 +42,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <SessionProvider>
           <ApolloProvider>
-            <Header type="manager" menuItems={MENUITEMS} />
+            <Header type="manager" menuItems={MENUITEMS}  />
             <Container>{children}</Container>
           </ApolloProvider>
         </SessionProvider>

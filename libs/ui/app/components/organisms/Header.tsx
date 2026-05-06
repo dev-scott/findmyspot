@@ -35,7 +35,7 @@ const NAV_ICONS: Record<string, React.ReactNode> = {
   Favorites: <IconHeartFilled size={14} />,
 }
 
-export const Header = ({ type, menuItems }: IHeaderProps) => {
+export const Header = ({ type = 'customer', menuItems }: IHeaderProps) => {
   const session = useSession()
   const uid = session?.data?.user?.uid
   const userName = session?.data?.user?.name
@@ -47,6 +47,9 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
 
   const isSearchPage = pathname?.startsWith('/search')
   const isHome = pathname === '/'
+
+  const user = session.data?.user
+  console.log("user of session ", user)
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10)
@@ -66,7 +69,7 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
   }, [])
 
   /* ── Colour tokens ── */
-  const onDark = isHome && !isScrolled
+  const onDark = isHome && !isScrolled && type=="customer"
   const isDark = onDark || isScrolled // dark text contexts
 
   const navBg = isScrolled
@@ -183,17 +186,15 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
                     </div>
                     {/* Name (desktop) */}
                     <span
-                      className={`hidden lg:block text-[13px] font-medium max-w-[100px] truncate ${
-                        isScrolled || onDark ? 'text-white/80' : 'text-gray-700'
-                      }`}
+                      className={`hidden lg:block text-[13px] font-medium max-w-[100px] truncate ${isScrolled || onDark ? 'text-white/80' : 'text-gray-700'
+                        }`}
                     >
                       {userName || 'User'}
                     </span>
                     <IconChevronDown
                       size={13}
-                      className={`transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : ''} ${
-                        isScrolled || onDark ? 'text-white/40' : 'text-gray-400'
-                      }`}
+                      className={`transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : ''} ${isScrolled || onDark ? 'text-white/40' : 'text-gray-400'
+                        }`}
                     />
                   </button>
 
@@ -256,7 +257,7 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
               </>
             ) : (
               <>
-              
+
 
                 {/* Register — ghost */}
                 <Link
