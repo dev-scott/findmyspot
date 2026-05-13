@@ -1,3 +1,4 @@
+// @ts-ignore
 import { MeshProps } from '@react-three/fiber'
 import { yellowColor } from '../util/constants'
 
