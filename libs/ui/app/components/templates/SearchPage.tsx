@@ -54,7 +54,7 @@ export const SearchPage = () => {
       {/* ── Search & Date Panel (top-left) ── */}
       <Panel position="left-top">
         <div
-          className="flex flex-col gap-3 w-[340px]"
+          className="flex ml-2 flex-col gap-3 w-[340px]"
           style={{
             background: 'rgba(255,255,255,0.72)',
             backdropFilter: 'blur(20px)',

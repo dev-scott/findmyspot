@@ -58,8 +58,8 @@ const CreateGarageContent = () => {
   )
 
   return (
-    <div className="grid md:grid-cols-2 gap-2 mt-2 ">
-      <div>
+    <div className="grid md:grid-cols-2 gap-8 mt-8 w-full">
+      <div className='w-full'>
         <Form
           onSubmit={handleSubmit(
             async ({

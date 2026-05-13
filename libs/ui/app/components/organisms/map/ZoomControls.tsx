@@ -7,7 +7,7 @@ import { useMap } from 'react-map-gl/mapbox'
 export interface IZoomControlsProps {}
 
 const MapControls = ({ children }: { children: ReactNode }) => (
-  <div className="flex flex-col overflow-hidden gap-0.5 space-y rounded shadow-lg divide-primary-800 backdrop-blur-sm">
+  <div className="flex flex-col gap-px shadow-2xl bg-black/20 backdrop-blur-xl border border-white/10">
     {children}
   </div>
 )
@@ -20,7 +20,7 @@ const ZoomControlButton = ({
   onClick: MouseEventHandler<HTMLButtonElement>
 }) => (
   <button
-    className=" hover:bg-white bg-white/40"
+    className="bg-white/90 hover:bg-primary transition-all duration-300 p-2 flex items-center justify-center group"
     type="button"
     onClick={onClick}
   >
@@ -33,7 +33,7 @@ const ZoomIn = () => {
 
   return (
     <ZoomControlButton onClick={() => map?.zoomIn()}>
-      <IconPlus className="w-8 h-8 p-1.5 text-black" />
+      <IconPlus className="w-5 h-5 text-black stroke-[3] group-hover:scale-110 transition-transform" />
     </ZoomControlButton>
   )
 }
@@ -42,7 +42,7 @@ const ZoomOut = () => {
   const { current: map } = useMap()
   return (
     <ZoomControlButton onClick={() => map?.zoomOut()}>
-      <IconMinus className="w-8 h-8 p-1.5 text-black" />
+      <IconMinus className="w-5 h-5 text-black stroke-[3] group-hover:scale-110 transition-transform" />
     </ZoomControlButton>
   )
 }
@@ -62,7 +62,7 @@ export const CenterOfMap = ({
         onClick({ lat, lng })
       }}
     >
-      <Icon className="w-8 h-8 p-1.5 text-black" />
+      <Icon className="w-5 h-5 text-black stroke-[2.5] group-hover:scale-110 transition-transform" />
     </ZoomControlButton>
   )
 }

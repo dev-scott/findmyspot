@@ -16,27 +16,28 @@ export const Autocomplete = <T,>({
       autoSelect
       handleHomeEndKeys
       classes={{
-        root: ' font-light  ',
-        input: 'p-2',
-        noOptions: ' backdrop-filter backdrop-blur',
-        loading: ' backdrop-filter backdrop-blur',
-        listbox: 'p-0  backdrop-filter backdrop-blur max-h-64',
-        option: 'hover:bg-white bg-opacity-100',
-        paper:
-          ' shadow-md border border-white mt-1 bg-transparent rounded-none',
+        root: 'font-sans',
+        input: 'py-2 px-3 text-sm font-medium',
+        noOptions: 'bg-black/90 backdrop-blur-xl text-white/60 text-xs py-4 px-6 uppercase tracking-widest',
+        loading: 'bg-black/90 backdrop-blur-xl text-white/60 text-xs py-4 px-6 uppercase tracking-widest',
+        listbox: 'p-2 bg-black/90 backdrop-blur-xl text-white max-h-64 space-y-1',
+        option: 'text-xs uppercase tracking-widest font-bold py-3 px-4 hover:bg-primary hover:text-black transition-colors duration-200 rounded-none',
+        paper: 'shadow-2xl border border-white/10 mt-2 bg-transparent rounded-none',
       }}
       renderInput={(params) => (
         <div
           ref={params.InputProps.ref}
-          className="flex items-center bg-transparent"
+          className="flex items-center relative group"
         >
           <input
             type="text"
             {...params.inputProps}
-            className="w-full py-2 pl-3 text-sm pr-8 shadow-none focus:ring-0  border border-white"
+            className="w-full py-3 pl-4 pr-12 text-xs font-bold uppercase tracking-widest bg-white/90 backdrop-blur-xl border border-white/20 focus:border-primary focus:ring-0 transition-all duration-300 placeholder:text-black/30 shadow-xl"
             placeholder={placeholder}
           />
-          <IconSearch className="w-4 h-4 text-gray-800 stroke-2 -ml-7" />
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110 group-focus-within:text-primary">
+            <IconSearch className="w-4 h-4 stroke-[3]" />
+          </div>
         </div>
       )}
       {...props}

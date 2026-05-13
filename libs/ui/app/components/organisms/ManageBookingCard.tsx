@@ -9,45 +9,57 @@ export interface IManageBookingCardProps {
   booking: BookingsForGarageQuery['bookingsForGarage'][0]
 }
 
-export const ManageBookingCard = ({ booking }: IManageBookingCardProps) => {
-  return (
-    <div className="p-4 space-y-3 bg-white ">
-      <div className="flex items-start justify-between">
-        <TitleStrongValue title={'Vehicle number'}>
-          <div className="text-3xl font-bold">{booking.vehicleNumber}</div>
-        </TitleStrongValue>
-        <div className="px-1 py-0.5 border border-primary">
-          <TitleValue title={'Slot'}>{booking.slot.displayName}</TitleValue>
+export const ManageBookingCard = ({ booking }: IManageBookingCardProps) => (
+    <div className="p-6 bg-white border border-gray-100 shadow-sm flex flex-col gap-6 transition-all duration-300 hover:shadow-xl hover:shadow-black/5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-1">
+             Vehicle Number
+           </p>
+           <div className="text-4xl font-bold tracking-tighter italic uppercase text-black">
+             {booking.vehicleNumber}
+           </div>
+        </div>
+        <div className="px-3 py-1.5 border border-primary bg-primary/5 flex flex-col items-end">
+           <span className="text-[8px] font-bold uppercase tracking-widest text-primary-700">Slot</span>
+           <span className="text-xs font-bold text-black">{booking.slot.displayName}</span>
         </div>
       </div>
-      <StartEndDateCard
-        startTime={booking.startTime}
-        endTime={booking.endTime}
-      />
-      <TitleStrongValue title={'Code'}>
-        <Reveal showIntruction={false} secret={booking.passcode || ''} />
-      </TitleStrongValue>
 
-      <Accordion
-        defaultOpen={false}
-        title={
-          <TitleStrongValue title={'Status'}>
-            <div className="font-bold">
-              {booking.status.split('_').join(' ')}
-            </div>
-          </TitleStrongValue>
-        }
-      >
-        <div className="flex flex-col gap-2">
-          {booking.bookingTimeline.map((timeline) => (
-            <div key={timeline.timestamp}>
-              <TitleValue title={timeline.status}>
-                {format(new Date(timeline.timestamp), 'PPp')}
-              </TitleValue>
-            </div>
-          ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+        <StartEndDateCard
+          startTime={booking.startTime}
+          endTime={booking.endTime}
+        />
+        <div className="flex flex-col gap-1">
+           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Security Passcode</p>
+           <Reveal showIntruction={false} secret={booking.passcode || ''} />
         </div>
-      </Accordion>
+      </div>
+
+      <div className="pt-4 border-t border-gray-50">
+        <Accordion
+          defaultOpen={false}
+          title={
+            <div className="flex items-center gap-2">
+               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Current Status:</span>
+               <span className="text-[10px] font-bold uppercase tracking-widest bg-black text-white px-2 py-0.5">
+                 {booking.status.split('_').join(' ')}
+               </span>
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-3 py-4">
+            {booking.bookingTimeline.map((timeline) => (
+              <div key={timeline.timestamp} className="flex justify-between items-center border-b border-gray-50 pb-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-gray-700">{timeline.status.split('_').join(' ')}</span>
+                <span className="text-[10px] font-medium text-gray-400 font-mono">
+                  {format(new Date(timeline.timestamp), 'PPp')}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Accordion>
+      </div>
     </div>
   )
-}

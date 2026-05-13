@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SessionProvider } from "@findmyspot/ui/app/components/molecules/SessionProvider";
 import { Header } from "@findmyspot/ui/app/components/organisms/Header";
 import { Container } from "@findmyspot/ui/app/components/atoms/Container";
+import MaxWidthWrapper from "@findmyspot/ui/app/components/atoms/MaxWidthWrapper";
 
 
 const geistSans = Geist({
@@ -39,11 +40,15 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[#F8FAFC] font-sans antialiased">
         <SessionProvider>
           <ApolloProvider>
-            <Header type="manager" menuItems={MENUITEMS}  />
-            <Container>{children}</Container>
+            <Header type="manager" menuItems={MENUITEMS} />
+            <main className="flex-grow">
+              <MaxWidthWrapper className="py-12">
+                {children}
+              </MaxWidthWrapper>
+            </main>
           </ApolloProvider>
         </SessionProvider>
         <ToastContainer />

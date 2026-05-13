@@ -10,6 +10,7 @@ import { dividerClasses } from '@mui/material'
 import { IconPlus } from '@tabler/icons-react'
 import Link from 'next/link'
 import { GarageCard } from './GarageCard'
+import { Button } from '../atoms/Button'
 
 export const ListGarages = ({
   companyId,
@@ -36,15 +37,22 @@ export const ListGarages = ({
         setSkip,
         setTake,
       }}
-      childrenClassName="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3"
+      childrenClassName="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6"
       title={
-        <div className="flex items-center gap-4">
-          <div>Garages</div>
-          <Link
-            href="/new-garage"
-            className="rounded-full border border-black p-0.5"
-          >
-            <IconPlus />
+        <div className="flex items-center justify-between w-full mb-8">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tighter uppercase italic">
+              Your <span className="text-primary">Garages</span>
+            </h1>
+            <p className="text-xs text-gray-500 font-medium uppercase tracking-[0.2em] mt-1">
+              Manage your parking locations
+            </p>
+          </div>
+          <Link href="/new-garage">
+            <Button size="sm" className="flex items-center gap-2">
+              <IconPlus size={16} stroke={3} />
+              <span>New Garage</span>
+            </Button>
           </Link>
         </div>
       }

@@ -33,11 +33,10 @@ export const CheckInOutButton = ({
           refetchQueries: [namedOperations.Query.BookingsForGarage],
         })
       }}
-      color="white"
-      className="mt-1"
-      fullWidth
+      className="mt-4 w-full"
+      size="lg"
     >
-      {buttonText}
+      <span className="font-bold tracking-widest">{buttonText}</span>
     </Button>
   )
 }

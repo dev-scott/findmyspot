@@ -9,29 +9,30 @@ export interface IBrandProps {
 
 export const Brand = ({
   shortForm = false,
-  className,
+  className = '',
   type = undefined,
 }: IBrandProps) => {
   return (
-    <div className={`grid place-items-center z-50 ${className}`}>
-      <div className="text-xl ">
-        {shortForm ? (
-          <div className="flex gap-1">
-            <BrandIcon /> A.
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 font-medium tracking-tighter font-playfair">
-            <BrandIcon />
-            <div>
-              <div className="flex gap-1">
-                <div>findmyspot</div>
-                {type ? <span className="text-xs">{type}</span> : null}
-              </div>
-              {/* <div className="text-xs text-gray">by Dev-scott</div> */}
+    <div className={`flex items-center z-50 ${className}`}>
+      {shortForm ? (
+        <BrandIcon className="w-5 h-5" />
+      ) : (
+        <div className="flex items-center gap-3">
+          <BrandIcon className="w-6 h-6" />
+          <div className="flex flex-col leading-none">
+            <div className="flex items-baseline gap-1">
+              <span className="text-lg font-bold tracking-tighter uppercase italic">
+                find<span className="text-primary">my</span>spot
+              </span>
+              {type && (
+                <span className="text-[10px] font-bold uppercase tracking-widest text-primary/80 px-1 bg-primary/5 border border-primary/10">
+                  {type}
+                </span>
+              )}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

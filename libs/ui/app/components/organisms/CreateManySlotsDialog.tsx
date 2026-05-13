@@ -41,12 +41,12 @@ export const CreateManySlotsDialog = ({ garageId }: { garageId: number }) => {
   return (
     <>
       <Button
-        variant="text"
+        variant="outlined"
         size="none"
         onClick={() => setOpen(true)}
-        className="w-16 h-10 border-2 group border-primary"
+        className="w-8 h-8 flex items-center justify-center border-gray-100 hover:border-primary hover:bg-primary hover:text-black transition-all duration-300"
       >
-        <div className="transition-transform duration-300 group-hover:scale-150">
+        <div className="text-lg font-bold">
           +
         </div>
       </Button>

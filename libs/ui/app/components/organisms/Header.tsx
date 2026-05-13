@@ -51,11 +51,11 @@ export const Header = ({ type = 'customer', menuItems }: IHeaderProps) => {
   const user = session.data?.user
   console.log("user of session ", user)
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  // useEffect(() => {
+  //   const handleScroll = () => setIsScrolled(window.scrollY > 10)
+  //   window.addEventListener('scroll', handleScroll, { passive: true })
+  //   return () => window.removeEventListener('scroll', handleScroll)
+  // }, [])
 
   /* Close user menu on click outside */
   useEffect(() => {
@@ -73,39 +73,41 @@ export const Header = ({ type = 'customer', menuItems }: IHeaderProps) => {
   const isDark = onDark || isScrolled // dark text contexts
 
   const navBg = isScrolled
-    ? 'bg-[#080808]/95 backdrop-blur-xl border-b border-white/[0.06]'
+    ? 'bg-black/80 backdrop-blur-2xl border-b border-white/10'
     : onDark
       ? 'bg-transparent border-b border-transparent'
-      : 'bg-white/80 backdrop-blur-xl border-b border-black/[0.06]'
+      : 'bg-white/60 backdrop-blur-2xl border-b border-black/5'
 
   const linkBase = isScrolled || onDark
-    ? 'text-white/60 hover:text-white'
-    : 'text-gray-500 hover:text-gray-900'
+    ? 'text-white/50 hover:text-white'
+    : 'text-gray-500 hover:text-black'
 
   const linkActive = isScrolled || onDark
     ? 'text-white'
-    : 'text-gray-900'
+    : 'text-black'
 
   return (
     <header>
       <nav
         className={`fixed z-50 top-0 w-full transition-all duration-500 ${navBg}`}
-        style={{ height: isScrolled ? 56 : 64, transition: 'height 0.3s, background 0.5s' }}
+        style={{ height: isScrolled ? 60 : 72 }}
       >
         <MaxWidthWrapper className="relative flex items-center justify-between h-full gap-6">
 
           {/* ══════════ LEFT: Brand ══════════ */}
-          <Link href="/" aria-label="Home" className="z-50 flex items-center gap-2.5 group shrink-0">
-            <span
-              className="w-2 h-2 rounded-full shrink-0 group-hover:scale-150 transition-all duration-300"
-              style={{ backgroundColor: '#C8FF00', boxShadow: '0 0 8px #C8FF0066' }}
-            />
-            <Brand type={type} className="hidden sm:block h-7" />
-            <Brand type={type} shortForm className="block sm:hidden h-7" />
+          <Link href="/" aria-label="Home" className="z-50 flex items-center gap-3 group shrink-0">
+            <div className="relative">
+              <span
+                className="block w-2.5 h-2.5 bg-primary rounded-none rotate-45 group-hover:rotate-180 transition-all duration-500"
+                style={{ boxShadow: '0 0 15px #C8FF00' }}
+              />
+            </div>
+            <Brand type={type} className="hidden sm:block" />
+            <Brand type={type} shortForm className="block sm:hidden" />
           </Link>
 
           {/* ══════════ CENTER: Navigation Links ══════════ */}
-          <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+          <div className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
             {menuItems.map(({ label, href }) => {
               const isActive = pathname === href || pathname?.startsWith(href + '/')
               return (
@@ -113,24 +115,21 @@ export const Header = ({ type = 'customer', menuItems }: IHeaderProps) => {
                   key={label}
                   href={href}
                   className={`
-                    relative flex items-center gap-1.5 px-3.5 py-1.5 text-[13px] font-medium
-                    rounded-full transition-all duration-200 group
+                    relative flex items-center gap-2 px-5 py-2 text-xs font-bold uppercase tracking-widest
+                    transition-all duration-300 group
                     ${isActive ? linkActive : linkBase}
                   `}
-                  style={isActive ? {
-                    background: isScrolled || onDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
-                  } : {}}
                 >
                   {/* Icon */}
-                  <span className="opacity-60 group-hover:opacity-100 transition-opacity">
-                    {NAV_ICONS[label] || <IconMapPin size={14} />}
+                  <span className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110 opacity-70 group-hover:opacity-100'}`}>
+                    {NAV_ICONS[label] || <IconMapPin size={14} stroke={2.5} />}
                   </span>
                   {label}
-                  {/* Active indicator dot */}
+                  {/* Active indicator line */}
                   {isActive && (
                     <span
-                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-                      style={{ backgroundColor: '#C8FF00' }}
+                      className="absolute -bottom-1 left-5 right-5 h-0.5 bg-primary"
+                      style={{ boxShadow: '0 0 10px #C8FF00' }}
                     />
                   )}
                 </Link>
@@ -139,156 +138,130 @@ export const Header = ({ type = 'customer', menuItems }: IHeaderProps) => {
           </div>
 
           {/* ══════════ RIGHT: Actions ══════════ */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
 
             {uid ? (
               <>
-                {/* ── Notification bell ── */}
                 <button
                   className={`
-                    hidden md:flex items-center justify-center w-9 h-9 rounded-full
-                    transition-all duration-200
-                    ${isScrolled || onDark ? 'hover:bg-white/10 text-white/50 hover:text-white' : 'hover:bg-black/5 text-gray-400 hover:text-gray-700'}
+                    hidden md:flex items-center justify-center w-10 h-10 rounded-none
+                    transition-all duration-300 border
+                    ${isScrolled || onDark 
+                      ? 'border-white/10 hover:border-white/30 text-white/50 hover:text-white hover:bg-white/5' 
+                      : 'border-black/5 hover:border-black/20 text-gray-400 hover:text-black hover:bg-black/5'}
                   `}
                   aria-label="Notifications"
                 >
-                  <IconBell size={18} />
+                  <IconBell size={18} stroke={2} />
                 </button>
 
-                {/* ── User Avatar + Dropdown ── */}
                 <div className="relative" ref={userMenuRef}>
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
                     className={`
-                      flex items-center gap-2 pl-1 pr-2 py-1 rounded-full
-                      transition-all duration-200 group
+                      flex items-center gap-3 p-1 rounded-none
+                      transition-all duration-300 group border
                       ${isScrolled || onDark
-                        ? 'hover:bg-white/10 border border-white/10 hover:border-white/20'
-                        : 'hover:bg-black/5 border border-black/10 hover:border-black/20'
+                        ? 'border-white/10 hover:border-white/30 bg-white/5'
+                        : 'border-black/10 hover:border-black/20 bg-black/5'
                       }
                     `}
                   >
-                    {/* Avatar */}
                     <div
-                      className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0"
-                      style={{
-                        border: '2px solid #C8FF00',
-                        boxShadow: '0 0 0 1px rgba(0,0,0,0.06)',
-                      }}
+                      className="w-8 h-8 bg-primary/20 flex-shrink-0 relative overflow-hidden"
+                      style={{ border: '1px solid #C8FF00' }}
                     >
                       <Image
                         src={userImage || '/user.png'}
                         alt={userName || 'User'}
-                        width={28}
-                        height={28}
-                        className="w-full h-full object-cover"
+                        width={32}
+                        height={32}
+                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                       />
                     </div>
-                    {/* Name (desktop) */}
                     <span
-                      className={`hidden lg:block text-[13px] font-medium max-w-[100px] truncate ${isScrolled || onDark ? 'text-white/80' : 'text-gray-700'
+                      className={`hidden lg:block text-[11px] font-bold uppercase tracking-tighter ${isScrolled || onDark ? 'text-white/90' : 'text-black'
                         }`}
                     >
                       {userName || 'User'}
                     </span>
                     <IconChevronDown
-                      size={13}
-                      className={`transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : ''} ${isScrolled || onDark ? 'text-white/40' : 'text-gray-400'
+                      size={14}
+                      className={`mr-2 transition-transform duration-300 ${userMenuOpen ? 'rotate-180' : ''} ${isScrolled || onDark ? 'text-white/40' : 'text-gray-400'
                         }`}
                     />
                   </button>
 
-                  {/* ── Dropdown menu ── */}
                   {userMenuOpen && (
                     <div
-                      className="absolute right-0 mt-2 w-56 origin-top-right animate-in fade-in slide-in-from-top-2 duration-200"
+                      className="absolute right-0 mt-3 w-60 origin-top-right animate-in fade-in zoom-in-95 duration-200"
                       style={{
-                        background: 'rgba(255,255,255,0.95)',
-                        backdropFilter: 'blur(24px)',
-                        WebkitBackdropFilter: 'blur(24px)',
-                        borderRadius: '14px',
-                        border: '1px solid rgba(0,0,0,0.08)',
-                        boxShadow: '0 16px 48px rgba(0,0,0,0.16), 0 0 0 1px rgba(255,255,255,0.5) inset',
-                        padding: '6px',
+                        background: 'rgba(10,10,10,0.95)',
+                        backdropFilter: 'blur(32px)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        padding: '8px',
                       }}
                     >
-                      {/* User info header */}
-                      <div className="px-3 py-2.5 border-b border-gray-100 mb-1">
-                        <div className="text-sm font-semibold text-gray-900 truncate">{userName || 'User'}</div>
-                        <div className="text-[11px] text-gray-400 truncate">{uid}</div>
+                      <div className="px-4 py-3 border-b border-white/10 mb-2">
+                        <div className="text-xs font-bold text-white uppercase tracking-wider truncate">{userName || 'User'}</div>
+                        <div className="text-[10px] text-white/40 font-mono truncate mt-0.5">{uid}</div>
                       </div>
 
-                      {/* Menu items */}
                       {[
-                        { icon: <IconUser size={15} />, label: 'My Profile', href: '/profile' },
-                        { icon: <IconCalendarEvent size={15} />, label: 'My Bookings', href: '/bookings' },
-                        { icon: <IconSettings size={15} />, label: 'Settings', href: '/settings' },
+                        { icon: <IconCalendarEvent size={16} />, label: 'My Bookings', href: '/bookings' },
                       ].map((item) => (
                         <Link
                           key={item.label}
                           href={item.href}
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 text-[13px] text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                          className="flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/60 hover:text-primary hover:bg-white/5 transition-all"
                         >
-                          <span className="text-gray-400">{item.icon}</span>
+                          {item.icon}
                           {item.label}
                         </Link>
                       ))}
 
-                      {/* Divider */}
-                      <div className="h-px bg-gray-100 my-1" />
+                      <div className="h-px bg-white/10 my-2" />
 
-                      {/* Logout */}
                       <button
                         onClick={() => { setUserMenuOpen(false); signOut() }}
-                        className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all"
                       >
-                        <IconLogout size={15} />
+                        <IconLogout size={16} />
                         Log out
                       </button>
                     </div>
                   )}
                 </div>
 
-                {/* Mobile nav */}
                 <div className="md:hidden">
                   <NavSidebar menuItems={menuItems} />
                 </div>
               </>
             ) : (
               <>
-
-
-                {/* Register — ghost */}
                 <Link
                   href="/register"
                   className={`
-                    hidden md:inline-flex items-center gap-2 px-4 py-2 text-[13px] font-medium
-                     transition-all duration-200
+                    hidden md:inline-flex items-center gap-2 px-6 py-2.5 text-xs font-bold uppercase tracking-widest
+                    transition-all duration-300
                     ${isScrolled || onDark
-                      ? 'text-white/60 hover:text-white hover:bg-white/10'
-                      : 'text-gray-500 hover:text-gray-900 hover:bg-black/5'
+                      ? 'text-white/60 hover:text-white hover:bg-white/5'
+                      : 'text-gray-500 hover:text-black hover:bg-black/5'
                     }
                   `}
                 >
-                  <IconUserPlus size={15} />
                   Register
                 </Link>
 
-                {/* Log in — lime CTA */}
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-2 px-5 py-2 text-[13px] font-bold text-black  transition-all duration-200 active:scale-[0.97] hover:shadow-lg"
-                  style={{
-                    backgroundColor: '#C8FF00',
-                    boxShadow: '0 2px 12px #C8FF0044',
-                  }}
+                  className="inline-flex items-center gap-2 px-7 py-2.5 text-xs font-bold uppercase tracking-widest text-black bg-primary transition-all duration-300 hover:bg-primary-300 active:scale-95"
+                  style={{ boxShadow: '0 4px 20px rgba(200,255,0,0.3)' }}
                 >
-                  <IconLogin size={15} />
                   Log in
                 </Link>
 
-                {/* Mobile nav */}
                 <div className="md:hidden">
                   <NavSidebar menuItems={menuItems} />
                 </div>
@@ -297,18 +270,18 @@ export const Header = ({ type = 'customer', menuItems }: IHeaderProps) => {
           </div>
         </MaxWidthWrapper>
 
-        {/* Lime gradient line at bottom */}
+        {/* Primary glow line */}
         <div
-          className="absolute bottom-0 left-0 h-px w-full transition-opacity duration-500"
+          className="absolute bottom-0 left-0 h-[2px] w-full transition-all duration-700"
           style={{
-            background: 'linear-gradient(90deg, transparent 5%, #C8FF0050 50%, transparent 95%)',
-            opacity: isScrolled ? 1 : 0,
+            background: 'linear-gradient(90deg, transparent, #C8FF00, transparent)',
+            opacity: isScrolled ? 0.4 : 0,
+            boxShadow: '0 0 15px #C8FF00',
           }}
         />
       </nav>
 
-      {/* Spacer */}
-      <div className="h-16" />
+      <div className="h-16 md:h-20" />
     </header>
   )
 }
